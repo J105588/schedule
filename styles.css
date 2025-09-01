@@ -352,16 +352,21 @@ p {
 }
 
 .countdown-description {
-    margin-top: 1.5rem;
+    margin: 2rem 0 1.5rem 0;
     text-align: center;
 }
 
-.countdown-description p {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    font-weight: 500;
+.countdown-description h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
     margin: 0;
-    opacity: 0.8;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 2px;
 }
 
 .festival-started {
