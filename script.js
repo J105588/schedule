@@ -305,7 +305,7 @@ function setupModalHandlers() {
             const modalId = e.target.getAttribute('data-modal');
             const modal = document.getElementById(modalId);
             if (modal) {
-            modal.style.display = 'none';
+                modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
         }
