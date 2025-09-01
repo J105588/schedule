@@ -265,6 +265,15 @@ function generateModals(day, dayData) {
         modal.className = 'modal';
         modal.setAttribute('data-day', day);
         
+        // 初期スタイルを設定
+        modal.style.setProperty('position', 'fixed', 'important');
+        modal.style.setProperty('z-index', '2000', 'important');
+        modal.style.setProperty('left', '0', 'important');
+        modal.style.setProperty('top', '0', 'important');
+        modal.style.setProperty('width', '100%', 'important');
+        modal.style.setProperty('height', '100%', 'important');
+        modal.style.setProperty('background', 'rgba(0, 0, 0, 0.4)', 'important');
+        
         // 役者リストを動的に生成（人数制限なし）
         const castList = row.cast.split(',').map(cast => cast.trim()).filter(cast => cast.length > 0);
         const staffList = row.staff.split(',').map(staff => staff.trim()).filter(staff => staff.length > 0);
@@ -299,6 +308,15 @@ function generateModals(day, dayData) {
         
         document.body.appendChild(modal);
         console.log(`モーダル ${modal.id} を生成しました`);
+        
+        // モーダルの現在のスタイルを確認
+        const computedStyle = window.getComputedStyle(modal);
+        console.log(`モーダル ${modal.id} の現在のスタイル:`, {
+            position: computedStyle.position,
+            zIndex: computedStyle.zIndex,
+            visibility: computedStyle.visibility,
+            opacity: computedStyle.opacity
+        });
     });
     
     console.log(`${day}のモーダル生成完了`);
@@ -324,17 +342,28 @@ function setupModalHandlers() {
             const modal = document.getElementById(modalId);
             if (modal) {
                 console.log('モーダルが見つかりました:', modal);
-                // モーダルを確実に表示
-                modal.style.display = 'block';
-                modal.style.position = 'fixed';
-                modal.style.zIndex = '2000';
-                modal.style.left = '0';
-                modal.style.top = '0';
-                modal.style.width = '100%';
-                modal.style.height = '100%';
-                modal.style.background = 'rgba(0, 0, 0, 0.4)';
+                // モーダルを確実に表示（!importantを使用）
+                modal.style.setProperty('display', 'block', 'important');
+                modal.style.setProperty('position', 'fixed', 'important');
+                modal.style.setProperty('z-index', '2000', 'important');
+                modal.style.setProperty('left', '0', 'important');
+                modal.style.setProperty('top', '0', 'important');
+                modal.style.setProperty('width', '100%', 'important');
+                modal.style.setProperty('height', '100%', 'important');
+                modal.style.setProperty('background', 'rgba(0, 0, 0, 0.4)', 'important');
                 document.body.style.overflow = 'hidden';
                 console.log('モーダルを表示しました');
+                
+                // 表示後のスタイルを確認
+                setTimeout(() => {
+                    const computedStyle = window.getComputedStyle(modal);
+                    console.log(`モーダル ${modalId} の表示後スタイル:`, {
+                        display: computedStyle.display,
+                        position: computedStyle.position,
+                        zIndex: computedStyle.zIndex,
+                        visibility: computedStyle.visibility
+                    });
+                }, 100);
             } else {
                 console.error('モーダルが見つかりません:', modalId);
             }
@@ -344,7 +373,7 @@ function setupModalHandlers() {
             const modalId = e.target.getAttribute('data-modal');
             const modal = document.getElementById(modalId);
             if (modal) {
-                modal.style.display = 'none';
+                modal.style.setProperty('display', 'none', 'important');
                 document.body.style.overflow = 'auto';
                 console.log('モーダルを閉じました:', modalId);
             }
@@ -356,7 +385,7 @@ function setupModalHandlers() {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
             if (event.target === modal) {
-                modal.style.display = 'none';
+                modal.style.setProperty('display', 'none', 'important');
                 document.body.style.overflow = 'auto';
                 console.log('モーダル外クリックで閉じました');
             }
@@ -368,8 +397,8 @@ function setupModalHandlers() {
         if (event.key === 'Escape') {
             const modals = document.querySelectorAll('.modal');
             modals.forEach(modal => {
-                if (modal.style.display === 'block') {
-                    modal.style.display = 'none';
+                if (modal.style.display === 'block' || window.getComputedStyle(modal).display === 'block') {
+                    modal.style.setProperty('display', 'none', 'important');
                     document.body.style.overflow = 'auto';
                     console.log('ESCキーでモーダルを閉じました');
                 }
