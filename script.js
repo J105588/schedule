@@ -284,19 +284,18 @@ function generateDayTable(day, dayData) {
     
     const existingTable = document.querySelector(`[data-day="${day}"]`);
     if (existingTable) {
-        console.log(`${day}の既存テーブルを削除中...`);
         existingTable.remove();
     }
     
     const main = document.querySelector('main');
-    if (!main) {
-        console.error('main要素が見つかりません');
-        return;
-    }
-    
     const tableContainer = document.createElement('div');
     tableContainer.className = 'schedule-table';
     tableContainer.setAttribute('data-day', day);
+    
+    // テーブルが確実に表示されるように初期スタイルを設定
+    tableContainer.style.setProperty('display', 'block', 'important');
+    tableContainer.style.setProperty('visibility', 'visible', 'important');
+    tableContainer.style.setProperty('opacity', '1', 'important');
     
     console.log(`${day}のテーブルHTMLを生成中...`);
     tableContainer.innerHTML = `
@@ -354,6 +353,14 @@ function generateDayTable(day, dayData) {
         console.log(`${day}のテーブルが正しく生成されました:`, generatedTable);
         const buttons = generatedTable.querySelectorAll('.cast-btn');
         console.log(`${day}の「詳細を見る」ボタン数: ${buttons.length}`);
+        
+        // 生成直後のスタイルを確認
+        const computedStyle = window.getComputedStyle(generatedTable);
+        console.log(`${day}のテーブルの生成直後スタイル:`, {
+            display: computedStyle.display,
+            visibility: computedStyle.visibility,
+            opacity: computedStyle.opacity
+        });
     } else {
         console.error(`${day}のテーブルが生成されていません`);
     }
