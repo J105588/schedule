@@ -12,85 +12,75 @@
 </head>
 
 <body>
-    <div class="container">
-        <!-- ヘッダー -->
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>第5期演劇祭スケジュール</h1>
-                </div>
-                <nav class="nav">
-                    <button class="nav-toggle" onclick="toggleNav()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </nav>
-            </div>
-        </header>
-
-        <!-- メインコンテンツ -->
-        <main class="main">
-            <div class="hero">
-                <div class="hero-content">
-                    <h2>2025年 演劇祭</h2>
-                    <p>各クラスの素晴らしい公演スケジュールをご確認ください</p>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <span class="stat-number">8</span>
-                            <span class="stat-label">クラス</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">2</span>
-                            <span class="stat-label">日間</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">48</span>
-                            <span class="stat-label">公演</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <section class="classes-section">
-                <h3>クラス選択</h3>
-                <div class="classes-grid">
-                    <!-- クラスカードはJavaScriptで動的に生成されます -->
-                </div>
-            </section>
-
-            <section class="info-section">
-                <div class="info-card">
-                    <i class="fas fa-info-circle"></i>
-                    <h4>公演について</h4>
-                    <p>各クラスは1日3公演、2日間で合計6公演を行います。公演時間は約1時間です。</p>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-clock"></i>
-                    <h4>開演時間</h4>
-                    <p>各クラスは上演時間が異なるので、ご注意ください。</p>
-                </div>
-            </section>
-        </main>
-
-        <!-- フッター -->
-        <footer class="footer">
-            <div class="footer-content">
-                <p>&copy; 2025 演劇祭</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- モバイルナビゲーション -->
-    <div id="mobile-nav" class="mobile-nav">
-        <div class="mobile-nav-header">
-            <h3>クラス選択</h3>
-            <button class="nav-close" onclick="toggleNav()">
+    <!-- サイドバー -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>クラス一覧</h3>
+            <button class="close-sidebar" onclick="closeSidebar()">
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <div class="mobile-nav-content">
-            <!-- モバイルナビゲーションはJavaScriptで動的に生成されます -->
+        <div class="sidebar-content">
+            <div class="sidebar-nav">
+                <a href="index.html" class="sidebar-item">
+                    <i class="fas fa-home"></i>
+                    <span>ホーム</span>
+                </a>
+                <!-- クラス一覧はJavaScriptで動的に生成されます -->
+            </div>
         </div>
     </div>
+
+    <!-- サイドバーオーバーレイ -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
+        <!-- ヘッダー -->
+        <header class="header">
+            <button class="menu-toggle" onclick="openSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>第5期演劇祭スケジュール</h1>
+        </header>
+
+        <div class="hero">
+            <div class="hero-content">
+                <h2>2025年 演劇祭</h2>
+                <p>各クラスの素晴らしい公演スケジュールをご確認ください</p>
+                <div class="hero-stats" id="hero-stats">
+                    <!-- 統計情報はJavaScriptで動的に生成されます -->
+                </div>
+            </div>
+        </div>
+
+        <section class="classes-section">
+            <h3>クラス選択</h3>
+            <div class="classes-grid" id="classes-grid">
+                <!-- クラスカードはJavaScriptで動的に生成されます -->
+            </div>
+        </section>
+
+        <section class="info-section">
+            <div class="info-card">
+                <i class="fas fa-info-circle"></i>
+                <h4>公演について</h4>
+                <p>各クラスは1日3公演、2日間で合計6公演を行います。公演時間は約1時間です。</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-clock"></i>
+                <h4>開演時間</h4>
+                <p>各クラスは上演時間が異なるので、ご注意ください。</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 演劇祭</p>
+        </div>
+    </footer>
 </body>
 
 </html>

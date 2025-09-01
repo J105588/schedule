@@ -12,23 +12,69 @@
 </head>
 
 <body>
-    <div class="container">
+    <!-- サイドバー -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>クラス一覧</h3>
+            <button class="close-sidebar" onclick="closeSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            <div class="sidebar-nav">
+                <a href="index.html" class="sidebar-item">
+                    <i class="fas fa-home"></i>
+                    <span>ホーム</span>
+                </a>
+                <a href="1.html" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    <span>1組</span>
+                </a>
+                <a href="2.html" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    <span>2組</span>
+                </a>
+                <a href="3.html" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    <span>3組</span>
+                </a>
+                <a href="4.html" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    <span>4組</span>
+                </a>
+                <a href="5.html" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    <span>5組</span>
+                </a>
+                <a href="6.html" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    <span>6組</span>
+                </a>
+                <a href="7.html" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    <span>7組</span>
+                </a>
+                <a href="8.html" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    <span>8組</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- サイドバーオーバーレイ -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
         <!-- ヘッダー -->
         <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>演劇祭スケジュール</h1>
-                </div>
-                <nav class="nav">
-                    <button class="nav-toggle" onclick="toggleNav()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </nav>
-            </div>
+            <button class="menu-toggle" onclick="openSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>演劇祭スケジュール</h1>
         </header>
 
-        <!-- メインコンテンツ -->
-        <main class="main">
             <!-- スケジュールヘッダー -->
             <div class="schedule-header">
                 <a href="index.html" class="back-link">

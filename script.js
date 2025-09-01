@@ -1,18 +1,6 @@
 // グローバル変数
 let festivalData = [];
 
-// クラスタイトル
-const classTitles = {
-    '1組': '話が違う！',
-    '2組': 'ある脱出ゲーム',
-    '3組': 'ポプコーンの降る街',
-    '4組': '庭園の何処かに潜伏していると仮定される盗賊の行方に関する一考察 ～羽柴邸に於ける旧ロマノフ家のダイヤ盗難事件を基に～',
-    '5組': 'チェンジ・ザ・ワールド',
-    '6組': '七人の部長',
-    '7組': 'サマータイムマシンブルース',
-    '8組': 'Memento ～忘却の夏'
-};
-
 // ページ読み込み時の処理
 document.addEventListener('DOMContentLoaded', () => {
     console.log('=== ページ読み込み開始 ===');
@@ -22,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // モーダル機能を設定
     setupModalHandlers();
+    
+    // サイドバー機能を設定
+    setupSidebarHandlers();
 });
 
 // CSVファイルを読み込む
@@ -42,6 +33,9 @@ async function loadCSVData() {
         console.log('パースされたデータ:', festivalData);
         console.log('データの行数:', festivalData.length);
         
+        // サイドバーのクラス一覧を更新
+        updateSidebarClasses();
+        
         // ページタイプに応じて処理
         if (isClassPage()) {
             const className = getClassNameFromURL();
@@ -51,6 +45,9 @@ async function loadCSVData() {
         } else {
             displayMainPage();
         }
+        
+        // サイドバーのクラス一覧を更新
+        updateSidebarClasses();
         
     } catch (error) {
         console.error('CSVファイルの読み込みに失敗しました:', error);
@@ -147,7 +144,14 @@ function updateScheduleHeader(className) {
     }
     
     if (descElement) {
-        descElement.textContent = classTitles[className] || '演劇公演';
+        // CSVからクラスの公演名を取得
+        const classData = festivalData.filter(row => row.class === className);
+        if (classData.length > 0) {
+            // 最初の公演の公演名を説明として使用
+            descElement.textContent = classData[0].play_title || '演劇公演';
+        } else {
+            descElement.textContent = '演劇公演';
+        }
     }
 }
 
@@ -234,6 +238,7 @@ function generateModals(classData) {
         const day = row.day;
         const modalId = `modal-${day}-${index + 1}`;
         
+        // CSVから役者とスタッフの情報を取得
         const castList = row.cast.split(',').map(cast => cast.trim()).filter(cast => cast.length > 0);
         const staffList = row.staff.split(',').map(staff => staff.trim()).filter(staff => staff.length > 0);
         
@@ -276,7 +281,154 @@ function generateModals(classData) {
 // メインページを表示
 function displayMainPage() {
     console.log('メインページを表示中...');
-    // メインページの処理（必要に応じて実装）
+    
+    // 統計情報を更新
+    updateHeroStats();
+    
+    // クラスカードを生成
+    generateClassCards();
+}
+
+// ヒーローセクションの統計情報を更新
+function updateHeroStats() {
+    const heroStats = document.getElementById('hero-stats');
+    if (!heroStats) return;
+    
+    // CSVから統計情報を計算
+    const uniqueClasses = [...new Set(festivalData.map(row => row.class))];
+    const totalPerformances = festivalData.length;
+    const totalCast = festivalData.reduce((total, row) => {
+        const castCount = row.cast.split(',').filter(cast => cast.trim().length > 0).length;
+        return total + castCount;
+    }, 0);
+    
+    heroStats.innerHTML = `
+        <div class="stat">
+            <span class="stat-number">${uniqueClasses.length}</span>
+            <span class="stat-label">クラス</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">${totalPerformances}</span>
+            <span class="stat-label">公演</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">${totalCast}</span>
+            <span class="stat-label">役者</span>
+        </div>
+    `;
+    
+    console.log('統計情報を更新しました');
+}
+
+// クラスカードを生成
+function generateClassCards() {
+    const classesGrid = document.getElementById('classes-grid');
+    if (!classesGrid) return;
+    
+    // CSVからユニークなクラスを取得
+    const uniqueClasses = [...new Set(festivalData.map(row => row.class))].sort();
+    
+    classesGrid.innerHTML = '';
+    
+    uniqueClasses.forEach(className => {
+        const classData = festivalData.filter(row => row.class === className);
+        const performances = classData.length;
+        
+        // 役者の総数を動的に計算
+        const totalCast = classData.reduce((total, row) => {
+            const castCount = row.cast.split(',').filter(cast => cast.trim().length > 0).length;
+            return total + castCount;
+        }, 0);
+        
+        // 最初の公演の公演名を取得
+        const firstPerformance = classData[0];
+        const performanceTitle = firstPerformance ? firstPerformance.play_title : '演劇公演';
+        
+        const card = document.createElement('a');
+        card.href = `${className.replace('組', '')}.html`;
+        card.className = 'class-card';
+        
+        card.innerHTML = `
+            <div class="class-card-header">
+                <i class="fas fa-users"></i>
+                <h4>${className}</h4>
+            </div>
+            <div class="class-card-content">
+                <p>${performanceTitle}</p>
+                <div class="schedule-info">
+                    <span class="schedule-badge">${performances}公演</span>
+                    <span class="cast-count">役者: ${totalCast}名</span>
+                </div>
+            </div>
+        `;
+        
+        classesGrid.appendChild(card);
+    });
+    
+    console.log('クラスカードを生成しました');
+}
+
+// サイドバーのクラス一覧を更新
+function updateSidebarClasses() {
+    const sidebarNav = document.querySelector('.sidebar-nav');
+    if (!sidebarNav) return;
+    
+    // 既存のクラスリンクをクリア（ホーム以外）
+    const existingLinks = sidebarNav.querySelectorAll('.sidebar-item:not(:first-child)');
+    existingLinks.forEach(link => link.remove());
+    
+    // CSVからユニークなクラスを取得
+    const uniqueClasses = [...new Set(festivalData.map(row => row.class))].sort();
+    
+    // 各クラスのリンクを生成
+    uniqueClasses.forEach(className => {
+        const classNumber = className.replace('組', '');
+        const link = document.createElement('a');
+        link.href = `${classNumber}.html`;
+        link.className = 'sidebar-item';
+        link.innerHTML = `
+            <i class="fas fa-users"></i>
+            <span>${className}</span>
+        `;
+        
+        sidebarNav.appendChild(link);
+    });
+    
+    console.log('サイドバーのクラス一覧を更新しました');
+}
+
+// サイドバーを開く
+function openSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    if (sidebar && overlay) {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// サイドバーを閉じる
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    if (sidebar && overlay) {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// サイドバーハンドラーを設定
+function setupSidebarHandlers() {
+    // サイドバー内のリンククリック時にサイドバーを閉じる
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.sidebar-item')) {
+            closeSidebar();
+        }
+    });
 }
 
 // モーダルハンドラーを設定

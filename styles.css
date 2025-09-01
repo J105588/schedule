@@ -1,22 +1,21 @@
 /* エラーメッセージ */
 .error-message {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 2rem;
+    right: 2rem;
+    background: #fed7d7;
+    color: #c53030;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     z-index: 3000;
-    animation: slideInRight 0.3s ease;
+    max-width: 400px;
 }
 
 .error-content {
-    background: #ff6b6b;
-    color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    max-width: 300px;
 }
 
 .error-content i {
@@ -61,14 +60,119 @@ body {
     flex-direction: column;
 }
 
+/* サイドバー */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: 2rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.close-sidebar {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.close-sidebar:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-content {
+    padding: 1rem 0;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left-color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-item i {
+    margin-right: 1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-item span {
+    font-weight: 500;
+}
+
+/* サイドバーオーバーレイ */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
 /* ヘッダー */
 .header {
-    background: rgba(255, 255, 255, 0.98);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 .header-content {
@@ -111,48 +215,64 @@ body {
     transform: scale(1.05);
 }
 
+.menu-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.menu-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
 /* メインコンテンツ */
 .main {
-    flex: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding-bottom: 2rem;
 }
 
 /* ヒーローセクション */
 .hero {
     background: rgba(255, 255, 255, 0.98);
+    margin: 2rem;
     border-radius: 20px;
     padding: 3rem 2rem;
     text-align: center;
-    margin-bottom: 3rem;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.hero h2 {
+.hero-content h2 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #333;
+    color: #2d3748;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
-.hero p {
+.hero-content p {
     font-size: 1.2rem;
-    color: #666;
+    color: #718096;
     margin-bottom: 2rem;
+    line-height: 1.6;
 }
 
 .hero-stats {
     display: flex;
     justify-content: center;
     gap: 3rem;
-    flex-wrap: wrap;
+    margin-top: 2rem;
 }
 
 .stat {
@@ -168,119 +288,94 @@ body {
 }
 
 .stat-label {
-    font-size: 0.9rem;
-    color: #666;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    display: block;
+    font-size: 1rem;
+    color: #718096;
+    margin-top: 0.5rem;
+    font-weight: 500;
 }
 
 /* クラスセクション */
 .classes-section {
-    margin-bottom: 3rem;
+    margin: 2rem;
 }
 
 .classes-section h3 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 2.5rem;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
     text-align: center;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    position: relative;
-}
-
-.classes-section h3::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border-radius: 2px;
 }
 
 .classes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
 .class-card {
     background: rgba(255, 255, 255, 0.98);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 2rem;
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s ease;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;
 }
 
 .class-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    background: rgba(255, 255, 255, 1);
-    border-color: rgba(102, 126, 234, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
 .class-card-header {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .class-card-header i {
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #667eea;
-    background: rgba(102, 126, 234, 0.1);
-    padding: 0.75rem;
-    border-radius: 12px;
 }
 
 .class-card-header h4 {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    color: #333;
+    color: #2d3748;
     margin: 0;
 }
 
 .class-card-content p {
-    color: #666;
-    margin-bottom: 0.75rem;
-}
-
-.schedule-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    color: #718096;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
 }
 
 .schedule-info {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.schedule-badge {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .cast-count {
-    display: inline-block;
-    background: rgba(102, 126, 234, 0.1);
     color: #667eea;
-    padding: 0.4rem 0.8rem;
-    border-radius: 16px;
-    font-size: 0.8rem;
     font-weight: 500;
-    border: 1px solid rgba(102, 126, 234, 0.2);
+    font-size: 0.9rem;
 }
 
 .cast-count-cell {
@@ -306,16 +401,23 @@ body {
 .info-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: 2rem;
+    margin: 2rem;
 }
 
 .info-card {
     background: rgba(255, 255, 255, 0.98);
-    border-radius: 16px;
     padding: 2rem;
-    text-align: center;
+    border-radius: 16px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.8);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
 .info-card i {
@@ -325,34 +427,34 @@ body {
 }
 
 .info-card h4 {
+    margin: 0 0 1rem 0;
+    color: #2d3748;
     font-size: 1.3rem;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 1rem;
 }
 
 .info-card p {
-    color: #666;
+    margin: 0;
+    color: #718096;
     line-height: 1.6;
+    font-size: 1rem;
 }
 
 /* フッター */
 .footer {
     background: rgba(255, 255, 255, 0.98);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    margin-top: auto;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
     padding: 2rem;
     text-align: center;
+    margin: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.footer p {
-    color: #666;
-    font-size: 0.9rem;
+.footer-content p {
+    color: #718096;
+    margin: 0;
+    font-size: 1rem;
 }
 
 /* モバイルナビゲーション */
@@ -432,19 +534,28 @@ body {
 /* スケジュールページ用スタイル */
 .schedule-header {
     background: rgba(255, 255, 255, 0.98);
-    border-radius: 20px;
+    border-radius: 16px;
     padding: 2rem;
-    margin-bottom: 2rem;
+    margin: 2rem;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.8);
     text-align: center;
 }
 
 .schedule-header h1 {
-    font-size: 2rem;
+    margin: 0 0 1rem 0;
+    font-size: 2.5rem;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 0.5rem;
+    color: #2d3748;
+    line-height: 1.2;
+}
+
+.schedule-header p {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #718096;
+    font-weight: 500;
+    line-height: 1.4;
 }
 
 .back-link {
@@ -455,16 +566,18 @@ body {
     text-decoration: none;
     font-weight: 500;
     margin-bottom: 1rem;
-    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
 }
 
 .back-link:hover {
-    transform: translateX(-5px);
+    background-color: rgba(102, 126, 234, 0.1);
 }
 
 /* スケジュールコンテナ */
 #schedule-tables {
-    margin-bottom: 2rem;
+    margin: 0 2rem 2rem;
 }
 
 .schedule-day {
@@ -479,10 +592,17 @@ body {
 .schedule-day h2 {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
-    padding: 1.5rem;
+    padding: 1.5rem 2rem;
     margin: 0;
     font-size: 1.5rem;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.schedule-day h2 i {
+    font-size: 1.3rem;
 }
 
 /* スケジュールテーブルスタイル */
@@ -492,47 +612,37 @@ body {
     margin: 0;
 }
 
-.schedule-table h2 {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 1.5rem;
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.schedule-table table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
 .schedule-table th {
-    background: rgba(102, 126, 234, 0.1);
-    color: #333;
+    background: #f7fafc;
+    color: #4a5568;
     font-weight: 600;
-    padding: 1rem;
+    padding: 1.25rem 1.5rem;
     text-align: left;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 1rem;
 }
 
 .schedule-table td {
-    padding: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
     vertical-align: middle;
 }
 
 .schedule-table tr:hover {
-    background: rgba(102, 126, 234, 0.05);
+    background-color: #f7fafc;
 }
 
 .time-cell {
     font-weight: 600;
-    color: #667eea;
-    width: 100px;
+    color: #2d3748;
+    font-size: 1.1rem;
+    width: 120px;
 }
 
 .title-cell {
-    font-weight: 500;
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1.1rem;
 }
 
 .cast-btn {
@@ -540,32 +650,29 @@ body {
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 25px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-size: 0.95rem;
 }
 
 .cast-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 /* モーダルスタイル */
 .modal {
-    /* display: none; を削除 - JavaScriptで制御 */
+    display: none;
     position: fixed;
     z-index: 2000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    /* 初期状態は非表示 - JavaScriptで制御 */
-    /* opacity: 0; を削除 */
-    /* visibility: hidden; を削除 */
-    /* transition: opacity 0.3s ease, visibility 0.3s ease; を削除 */
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
 }
 
 .modal.show {
@@ -575,16 +682,16 @@ body {
 }
 
 .modal-content {
-    background: rgba(255, 255, 255, 0.98);
+    background: white;
     margin: 5% auto;
     padding: 2rem;
-    border-radius: 20px;
+    border-radius: 16px;
     width: 90%;
-    max-width: 500px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
     position: relative;
-    animation: modalSlideIn 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes modalSlideIn {
@@ -599,10 +706,11 @@ body {
 }
 
 .modal-content h2 {
-    color: #333;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+    margin: 0 0 2rem 0;
+    color: #2d3748;
+    font-size: 1.8rem;
     font-weight: 600;
+    text-align: center;
 }
 
 .modal-content h3 {
@@ -613,53 +721,64 @@ body {
 }
 
 .cast-section, .staff-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-.modal-content ul {
-    list-style: none;
-    padding: 0;
-}
-
-.modal-content li {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    color: #666;
+.cast-section h3, .staff-section h3 {
+    color: #4a5568;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
-.modal-content li:last-child {
-    border-bottom: none;
+.cast-section h3 i, .staff-section h3 i {
+    color: #667eea;
 }
 
-.modal-content li i {
+.cast-section ul, .staff-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cast-section li, .staff-section li {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.cast-section li i, .staff-section li i {
     color: #667eea;
     width: 16px;
+    text-align: center;
 }
 
 .close {
     position: absolute;
     top: 1rem;
     right: 1.5rem;
-    font-size: 2rem;
-    color: #999;
-    cursor: pointer;
-    transition: color 0.3s ease;
     background: none;
     border: none;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #718096;
+    padding: 0.5rem;
     border-radius: 50%;
+    transition: background-color 0.2s ease;
 }
 
 .close:hover {
-    color: #333;
-    background: rgba(0, 0, 0, 0.05);
+    background-color: #f7fafc;
+    color: #4a5568;
 }
 
 /* レスポンシブデザイン */
@@ -693,6 +812,7 @@ body {
     }
     
     .info-section {
+        margin: 1rem;
         grid-template-columns: 1fr;
     }
     
@@ -706,8 +826,64 @@ body {
     
     .modal-content {
         margin: 10% auto;
-        width: 95%;
         padding: 1.5rem;
+        width: 95%;
+    }
+    
+    .error-message {
+        top: 1rem;
+        right: 1rem;
+        left: 1rem;
+        max-width: none;
+    }
+    
+    .sidebar {
+        width: 280px;
+        left: -280px;
+    }
+    
+    .header {
+        padding: 1rem;
+    }
+    
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .schedule-header {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .schedule-header h1 {
+        font-size: 2rem;
+    }
+    
+    .schedule-header p {
+        font-size: 1.1rem;
+    }
+    
+    #schedule-tables {
+        margin: 0 1rem 1rem;
+    }
+    
+    .schedule-day h2 {
+        padding: 1rem 1.5rem;
+        font-size: 1.3rem;
+    }
+    
+    .schedule-table th,
+    .schedule-table td {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .time-cell {
+        width: 100px;
+    }
+    
+    .cast-count-cell {
+        width: 120px;
     }
 }
 
