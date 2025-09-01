@@ -412,7 +412,7 @@ function generateDayTable(day, dayData, containerId) {
     
     // テーブルHTMLを生成
     const tableHTML = `
-        <table class="schedule-table" data-day="${day}">
+        <table class="schedule-table" data-day="${day}" style="display: table; visibility: visible; opacity: 1;">
             <thead>
                 <tr>
                     <th class="time-cell">時間</th>
@@ -451,15 +451,25 @@ function generateDayTable(day, dayData, containerId) {
     tableContainer.innerHTML = tableHTML;
     console.log(`${day}のテーブルを ${containerId} に挿入完了`);
     
-    // 生成されたテーブルの確認
-    const generatedTable = tableContainer.querySelector('.schedule-table');
-    if (generatedTable) {
-        console.log(`${day}のテーブルが正しく生成されました:`, generatedTable);
-        const buttons = generatedTable.querySelectorAll('.cast-btn');
+    // 挿入後の確認
+    const insertedTable = tableContainer.querySelector('table');
+    if (insertedTable) {
+        console.log(`${day}のテーブルが正しく挿入されました:`, insertedTable);
+        console.log(`- クラス名: ${insertedTable.className}`);
+        console.log(`- data-day属性: ${insertedTable.getAttribute('data-day')}`);
+        console.log(`- 行数: ${insertedTable.querySelectorAll('tbody tr').length}`);
+        
+        // テーブルが正しく検索できるかテスト
+        const foundByClass = document.querySelectorAll('.schedule-table');
+        const foundByAttr = document.querySelectorAll(`[data-day="${day}"]`);
+        console.log(`- .schedule-table で検索: ${foundByClass.length}件`);
+        console.log(`- [data-day="${day}"] で検索: ${foundByAttr.length}件`);
+        
+        const buttons = insertedTable.querySelectorAll('.cast-btn');
         console.log(`${day}の「詳細を見る」ボタン数: ${buttons.length}`);
         
         // 生成直後のスタイルを確認
-        const computedStyle = window.getComputedStyle(generatedTable);
+        const computedStyle = window.getComputedStyle(insertedTable);
         console.log(`${day}のテーブルの生成直後スタイル:`, {
             display: computedStyle.display,
             visibility: computedStyle.visibility,
@@ -468,7 +478,7 @@ function generateDayTable(day, dayData, containerId) {
             height: computedStyle.height
         });
     } else {
-        console.error(`${day}のテーブルが生成されていません`);
+        console.error(`${day}のテーブルが挿入されていません`);
     }
     
     // モーダルを生成
