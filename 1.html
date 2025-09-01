@@ -17,7 +17,7 @@
         <header class="header">
             <div class="header-content">
                 <div class="logo">
-                    <h1>第5期演劇祭スケジュール</h1>
+                    <h1>演劇祭スケジュール</h1>
                 </div>
                 <nav class="nav">
                     <button class="nav-toggle" onclick="toggleNav()">
@@ -39,74 +39,19 @@
                 <p>話が違う！</p>
             </div>
 
-            <!-- 1日目スケジュール -->
-            <div class="schedule-table">
-                <h2><i class="fas fa-calendar-day"></i> 1日目</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="time-cell">時間</th>
-                            <th class="title-cell">演目</th>
-                            <th>役者・スタッフ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="time-cell">10:00</td>
-                            <td class="title-cell">演目A</td>
-                            <td><button class="cast-btn" data-modal="modal1-1">役者一覧</button></td>
-                        </tr>
-                        <tr>
-                            <td class="time-cell">13:00</td>
-                            <td class="title-cell">演目B</td>
-                            <td><button class="cast-btn" data-modal="modal1-2">役者一覧</button></td>
-                        </tr>
-                        <tr>
-                            <td class="time-cell">16:00</td>
-                            <td class="title-cell">演目C</td>
-                            <td><button class="cast-btn" data-modal="modal1-3">役者一覧</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 2日目スケジュール -->
-            <div class="schedule-table">
-                <h2><i class="fas fa-calendar-day"></i> 2日目</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="time-cell">時間</th>
-                            <th class="title-cell">演目</th>
-                            <th>役者・スタッフ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="time-cell">10:00</td>
-                            <td class="title-cell">演目D</td>
-                            <td><button class="cast-btn" data-modal="modal1-4">役者一覧</button></td>
-                        </tr>
-                        <tr>
-                            <td class="time-cell">13:00</td>
-                            <td class="title-cell">演目E</td>
-                            <td><button class="cast-btn" data-modal="modal1-5">役者一覧</button></td>
-                        </tr>
-                        <tr>
-                            <td class="time-cell">16:00</td>
-                            <td class="title-cell">演目F</td>
-                            <td><button class="cast-btn" data-modal="modal1-6">役者一覧</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+            <!-- スケジュールテーブルはJavaScriptで動的に生成されます -->
+            
             <!-- 公演情報 -->
             <section class="info-section">
                 <div class="info-card">
                     <i class="fas fa-clock"></i>
                     <h4>公演時間</h4>
                     <p>各公演は約1時間です。開演10分前までにご着席ください。</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-users"></i>
+                    <h4>キャスト</h4>
+                    <p>各公演には役者と音響・照明担当者が参加します。役者の数は公演によって異なります。</p>
                 </div>
             </section>
         </main>
@@ -128,183 +73,7 @@
             </button>
         </div>
         <div class="mobile-nav-content">
-            <a href="1.html" class="mobile-nav-item">
-                <i class="fas fa-users"></i>
-                <span>クラス1</span>
-            </a>
-            <a href="2.html" class="mobile-nav-item">
-                <i class="fas fa-users"></i>
-                <span>クラス2</span>
-            </a>
-            <a href="3.html" class="mobile-nav-item">
-                <i class="fas fa-users"></i>
-                <span>クラス3</span>
-            </a>
-            <a href="4.html" class="mobile-nav-item">
-                <i class="fas fa-users"></i>
-                <span>クラス4</span>
-            </a>
-            <a href="5.html" class="mobile-nav-item">
-                <i class="fas fa-users"></i>
-                <span>クラス5</span>
-            </a>
-            <a href="6.html" class="mobile-nav-item">
-                <i class="fas fa-users"></i>
-                <span>クラス6</span>
-            </a>
-            <a href="7.html" class="mobile-nav-item">
-                <i class="fas fa-users"></i>
-                <span>クラス7</span>
-            </a>
-            <a href="8.html" class="mobile-nav-item">
-                <i class="fas fa-users"></i>
-                <span>クラス8</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- モーダルウィンドウ -->
-    <div id="modal1-1" class="modal">
-        <div class="modal-content">
-            <button class="close" data-modal="modal1-1">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2>第一公演 役者一覧</h2>
-            <div class="cast-section">
-                <h3><i class="fas fa-users"></i> キャスト</h3>
-                <ul>
-                    <li><i class="fas fa-user"></i> 1. 役者1</li>
-                    <li><i class="fas fa-user"></i> 2. 役者2</li>
-                    <li><i class="fas fa-user"></i> 3. 役者3</li>
-                </ul>
-            </div>
-            <div class="staff-section">
-                <h3><i class="fas fa-cogs"></i> スタッフ</h3>
-                <ul>
-                    <li><i class="fas fa-volume-up"></i> 音響担当: 1. XYZ</li>
-                    <li><i class="fas fa-lightbulb"></i> 照明担当: 2. ABC</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal1-2" class="modal">
-        <div class="modal-content">
-            <button class="close" data-modal="modal1-2">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2>第二公演 役者一覧</h2>
-            <div class="cast-section">
-                <h3><i class="fas fa-users"></i> キャスト</h3>
-                <ul>
-                    <li><i class="fas fa-user"></i> 4. 役者4</li>
-                    <li><i class="fas fa-user"></i> 5. 役者5</li>
-                    <li><i class="fas fa-user"></i> 6. 役者6</li>
-                </ul>
-            </div>
-            <div class="staff-section">
-                <h3><i class="fas fa-cogs"></i> スタッフ</h3>
-                <ul>
-                    <li><i class="fas fa-volume-up"></i> 音響担当: 1. DEF</li>
-                    <li><i class="fas fa-lightbulb"></i> 照明担当: 2. GHI</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal1-3" class="modal">
-        <div class="modal-content">
-            <button class="close" data-modal="modal1-3">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2>第三公演 役者一覧</h2>
-            <div class="cast-section">
-                <h3><i class="fas fa-users"></i> キャスト</h3>
-                <ul>
-                    <li><i class="fas fa-user"></i> 7. 役者7</li>
-                    <li><i class="fas fa-user"></i> 8. 役者8</li>
-                    <li><i class="fas fa-user"></i> 9. 役者9</li>
-                </ul>
-            </div>
-            <div class="staff-section">
-                <h3><i class="fas fa-cogs"></i> スタッフ</h3>
-                <ul>
-                    <li><i class="fas fa-volume-up"></i> 音響担当: 1. JKL</li>
-                    <li><i class="fas fa-lightbulb"></i> 照明担当: 2. MNO</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal1-4" class="modal">
-        <div class="modal-content">
-            <button class="close" data-modal="modal1-4">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2>第一公演 役者一覧</h2>
-            <div class="cast-section">
-                <h3><i class="fas fa-users"></i> キャスト</h3>
-                <ul>
-                    <li><i class="fas fa-user"></i> 10. 役者10</li>
-                    <li><i class="fas fa-user"></i> 11. 役者11</li>
-                    <li><i class="fas fa-user"></i> 12. 役者12</li>
-                </ul>
-            </div>
-            <div class="staff-section">
-                <h3><i class="fas fa-cogs"></i> スタッフ</h3>
-                <ul>
-                    <li><i class="fas fa-volume-up"></i> 音響担当: 1. PQR</li>
-                    <li><i class="fas fa-lightbulb"></i> 照明担当: 2. STU</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal1-5" class="modal">
-        <div class="modal-content">
-            <button class="close" data-modal="modal1-5">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2>第二公演 役者一覧</h2>
-            <div class="cast-section">
-                <h3><i class="fas fa-users"></i> キャスト</h3>
-                <ul>
-                    <li><i class="fas fa-user"></i> 13. 役者13</li>
-                    <li><i class="fas fa-user"></i> 14. 役者14</li>
-                    <li><i class="fas fa-user"></i> 15. 役者15</li>
-                </ul>
-            </div>
-            <div class="staff-section">
-                <h3><i class="fas fa-cogs"></i> スタッフ</h3>
-                <ul>
-                    <li><i class="fas fa-volume-up"></i> 音響担当: 1. VWX</li>
-                    <li><i class="fas fa-lightbulb"></i> 照明担当: 2. YZ</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal1-6" class="modal">
-        <div class="modal-content">
-            <button class="close" data-modal="modal1-6">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2>第三公演 役者一覧</h2>
-            <div class="cast-section">
-                <h3><i class="fas fa-users"></i> キャスト</h3>
-                <ul>
-                    <li><i class="fas fa-user"></i> 16. 役者16</li>
-                    <li><i class="fas fa-user"></i> 17. 役者17</li>
-                    <li><i class="fas fa-user"></i> 18. 役者18</li>
-                </ul>
-            </div>
-            <div class="staff-section">
-                <h3><i class="fas fa-cogs"></i> スタッフ</h3>
-                <ul>
-                    <li><i class="fas fa-volume-up"></i> 音響担当: 1. ABC</li>
-                    <li><i class="fas fa-lightbulb"></i> 照明担当: 2. DEF</li>
-                </ul>
-            </div>
+            <!-- モバイルナビゲーションはJavaScriptで動的に生成されます -->
         </div>
     </div>
 </body>
