@@ -463,7 +463,7 @@ body {
 }
 
 /* スケジュールコンテナ */
-#schedule-container {
+#schedule-tables {
     margin-bottom: 2rem;
 }
 
@@ -483,10 +483,6 @@ body {
     margin: 0;
     font-size: 1.5rem;
     font-weight: 600;
-}
-
-.table-container {
-    padding: 0;
 }
 
 /* スケジュールテーブルスタイル */

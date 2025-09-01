@@ -1,6 +1,8 @@
 // グローバル変数
 let festivalData = [];
-let classTitles = {
+
+// クラスタイトル
+const classTitles = {
     '1組': '話が違う！',
     '2組': 'ある脱出ゲーム',
     '3組': 'ポプコーンの降る街',
@@ -11,40 +13,21 @@ let classTitles = {
     '8組': 'Memento ～忘却の夏'
 };
 
+// ページ読み込み時の処理
 document.addEventListener('DOMContentLoaded', () => {
     console.log('=== ページ読み込み開始 ===');
-    console.log('現在のURL:', window.location.href);
-    console.log('ページタイトル:', document.title);
-    console.log('現在のパス:', window.location.pathname);
-    console.log('ファイル名:', window.location.pathname.split('/').pop());
-    
-    // ページの要素が存在するか確認
-    const main = document.querySelector('main');
-    const infoSection = document.querySelector('.info-section');
-    console.log('main要素の存在:', !!main);
-    console.log('info-section要素の存在:', !!infoSection);
     
     // CSVファイルを読み込む
     loadCSVData();
     
-    // モーダル機能
+    // モーダル機能を設定
     setupModalHandlers();
-    
-    // カードホバーエフェクト
-    setupCardEffects();
-    
-    // アニメーション効果
-    setupAnimations();
-    
-    console.log('=== ページ読み込み完了 ===');
 });
 
 // CSVファイルを読み込む
 async function loadCSVData() {
     try {
-        console.log('=== CSVファイルの読み込みを開始 ===');
-        console.log('現在のURL:', window.location.href);
-        console.log('ページタイトル:', document.title);
+        console.log('CSVファイルの読み込みを開始...');
         
         const response = await fetch('data.csv');
         if (!response.ok) {
@@ -53,60 +36,25 @@ async function loadCSVData() {
         
         const csvText = await response.text();
         console.log('CSVファイルの内容（最初の200文字）:', csvText.substring(0, 200) + '...');
-        console.log('CSVファイルの総文字数:', csvText.length);
         
+        // CSVをパース
         festivalData = parseCSV(csvText);
         console.log('パースされたデータ:', festivalData);
         console.log('データの行数:', festivalData.length);
         
-        if (festivalData.length > 0) {
-            console.log('最初の行のサンプル:', festivalData[0]);
-            console.log('利用可能なクラス:', [...new Set(festivalData.map(row => row.class))]);
-        }
-        
-        // メインページの場合はクラスカードを生成
-        if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
-            console.log('メインページ: クラスカードを生成中...');
-            generateClassCards();
-        }
-        
-        // 個別クラスページの場合はスケジュールテーブルを生成
-        else if (window.location.pathname.includes('.html')) {
+        // ページタイプに応じて処理
+        if (isClassPage()) {
             const className = getClassNameFromURL();
-            console.log('個別クラスページ: クラス名 =', className);
             if (className) {
-                console.log(`${className}のデータをフィルタリング中...`);
-                const classData = festivalData.filter(row => row.class === className);
-                console.log(`${className}のデータ数:`, classData.length);
-                if (classData.length > 0) {
-                    generateScheduleTable(className);
-                    generateMobileNavigation();
-                } else {
-                    console.error(`${className}のデータが見つかりません`);
-                    // フォールバック: テスト用のデータでスケジュールを生成
-                    console.log('フォールバック: テスト用データでスケジュールを生成中...');
-                    generateTestSchedule(className);
-                }
-            } else {
-                console.error('クラス名を取得できませんでした');
+                displayClassSchedule(className);
             }
+        } else {
+            displayMainPage();
         }
-        
-        console.log('=== CSVファイルの読み込み完了 ===');
         
     } catch (error) {
         console.error('CSVファイルの読み込みに失敗しました:', error);
-        console.log('フォールバック: テスト用データでスケジュールを生成中...');
-        
-        // エラー時のフォールバック
-        if (window.location.pathname.includes('.html')) {
-            const className = getClassNameFromURL();
-            if (className) {
-                generateTestSchedule(className);
-            }
-        }
-        
-        showError('データの読み込みに失敗しました。テスト用データで表示しています。');
+        showError('データの読み込みに失敗しました。ページを再読み込みしてください。');
     }
 }
 
@@ -153,385 +101,150 @@ function parseCSVLine(line) {
     return result;
 }
 
-// クラスカードを生成
-function generateClassCards() {
-    const classesGrid = document.querySelector('.classes-grid');
-    if (!classesGrid) return;
-    
-    // ユニークなクラスを取得
-    const uniqueClasses = [...new Set(festivalData.map(row => row.class))];
-    
-    classesGrid.innerHTML = '';
-    
-    uniqueClasses.forEach(className => {
-        const classData = festivalData.filter(row => row.class === className);
-        const performances = classData.length;
-        
-        // 役者の総数を動的に計算
-        const totalCast = classData.reduce((total, row) => {
-            const castCount = row.cast.split(',').filter(cast => cast.trim().length > 0).length;
-            return total + castCount;
-        }, 0);
-        
-        const card = document.createElement('a');
-        card.href = `${className.replace('組', '')}.html`;
-        card.className = 'class-card';
-        
-        card.innerHTML = `
-            <div class="class-card-header">
-                <i class="fas fa-users"></i>
-                <h4>${className}</h4>
-            </div>
-            <div class="class-card-content">
-                <p>${classTitles[className] || '演劇公演'}</p>
-                <div class="schedule-info">
-                    <span class="schedule-badge">${performances}公演</span>
-                    <span class="cast-count">役者: ${totalCast}名</span>
-                </div>
-            </div>
-        `;
-        
-        classesGrid.appendChild(card);
-    });
-    
-    // モバイルナビゲーションも生成
-    generateMobileNavigation();
+// クラスページかどうかを判定
+function isClassPage() {
+    return window.location.pathname.includes('.html') && !window.location.pathname.endsWith('index.html');
 }
 
-// ページ全体の状態を確認する関数（デバッグ用）
-function debugPageState() {
-    console.log('=== ページ全体の状態確認 ===');
-    
-    // メイン要素の確認
-    const main = document.querySelector('main');
-    if (main) {
-        console.log('main要素の存在: true');
-        console.log('main要素の子要素数:', main.children.length);
-        console.log('main要素の子要素:', Array.from(main.children).map(child => ({
-            tagName: child.tagName,
-            className: child.className,
-            id: child.id,
-            dataDay: child.getAttribute('data-day'),
-            textContent: child.textContent?.substring(0, 100)
-        })));
-        
-        // main要素の現在のHTMLも確認
-        console.log('main要素の現在のHTML:', main.innerHTML.substring(0, 500) + '...');
-    } else {
-        console.error('main要素が見つかりません');
+// URLからクラス名を取得
+function getClassNameFromURL() {
+    const path = window.location.pathname;
+    const match = path.match(/(\d+)\.html$/);
+    if (match) {
+        return `${match[1]}組`;
     }
-    
-    // スケジュールテーブルの確認
-    const scheduleTables = document.querySelectorAll('.schedule-table');
-    console.log('スケジュールテーブルの数:', scheduleTables.length);
-    
-    scheduleTables.forEach((table, index) => {
-        const computedStyle = window.getComputedStyle(table);
-        const rect = table.getBoundingClientRect();
-        console.log(`テーブル ${index + 1} (${table.getAttribute('data-day')}):`, {
-            display: computedStyle.display,
-            visibility: computedStyle.visibility,
-            opacity: computedStyle.opacity,
-            width: computedStyle.width,
-            height: computedStyle.height,
-            position: computedStyle.position,
-            zIndex: computedStyle.zIndex,
-            rect: {
-                top: rect.top,
-                left: rect.left,
-                width: rect.width,
-                height: rect.height,
-                visible: rect.width > 0 && rect.height > 0
-            }
-        });
-        
-        // テーブルの親要素も確認
-        const parent = table.parentElement;
-        if (parent) {
-            console.log(`テーブル ${index + 1} の親要素:`, {
-                tagName: parent.tagName,
-                className: parent.className,
-                id: parent.id
-            });
-        }
-        
-        // テーブルの兄弟要素も確認
-        const siblings = Array.from(parent?.children || []);
-        console.log(`テーブル ${index + 1} の兄弟要素:`, siblings.map(sibling => ({
-            tagName: sibling.tagName,
-            className: sibling.className,
-            id: sibling.id,
-            dataDay: sibling.getAttribute('data-day')
-        })));
-    });
-    
-    // ボタンの確認
-    const castButtons = document.querySelectorAll('.cast-btn');
-    console.log('「詳細を見る」ボタンの数:', castButtons.length);
-    
-    castButtons.forEach((btn, index) => {
-        const computedStyle = window.getComputedStyle(btn);
-        console.log(`ボタン ${index + 1}:`, {
-            text: btn.textContent,
-            dataModal: btn.getAttribute('data-modal'),
-            display: computedStyle.display,
-            visibility: computedStyle.visibility,
-            opacity: computedStyle.opacity
-        });
-    });
-    
-    // モーダルの確認
-    const modals = document.querySelectorAll('.modal');
-    console.log('モーダルの数:', modals.length);
-    
-    modals.forEach((modal, index) => {
-        const computedStyle = window.getComputedStyle(modal);
-        console.log(`モーダル ${index + 1} (${modal.id}):`, {
-            display: computedStyle.display,
-            visibility: computedStyle.visibility,
-            opacity: computedStyle.opacity,
-            position: computedStyle.position,
-            zIndex: computedStyle.zIndex
-        });
-    });
-    
-    // ページ全体のレイアウト確認
-    console.log('=== ページレイアウト確認 ===');
-    const body = document.body;
-    const html = document.documentElement;
-    console.log('body要素のスタイル:', {
-        margin: getComputedStyle(body).margin,
-        padding: getComputedStyle(body).padding,
-        overflow: getComputedStyle(body).overflow
-    });
-    console.log('html要素のスタイル:', {
-        margin: getComputedStyle(html).margin,
-        padding: getComputedStyle(html).padding,
-        overflow: getComputedStyle(html).overflow
-    });
+    return null;
 }
 
-// スケジュールテーブルを生成
-function generateScheduleTable(className) {
-    console.log(`${className}のスケジュールテーブルを生成中...`);
-    
-    const classData = festivalData.filter(row => row.class === className);
-    if (classData.length === 0) {
-        console.error(`${className}のデータが見つかりません`);
-        return;
-    }
-    
-    console.log(`${className}のデータ:`, classData);
+// クラスページのスケジュールを表示
+function displayClassSchedule(className) {
+    console.log(`${className}のスケジュールを表示中...`);
     
     // ヘッダーを更新
     updateScheduleHeader(className);
+    
+    // クラスのデータを取得
+    const classData = festivalData.filter(row => row.class === className);
+    if (classData.length === 0) {
+        showError(`${className}のデータが見つかりません`);
+        return;
+    }
+    
+    // スケジュールテーブルを生成
+    generateScheduleTables(classData);
+    
+    // モーダルを生成
+    generateModals(classData);
+}
+
+// スケジュールヘッダーを更新
+function updateScheduleHeader(className) {
+    const titleElement = document.getElementById('schedule-title');
+    const descElement = document.getElementById('schedule-description');
+    
+    if (titleElement) {
+        titleElement.textContent = `${className} 上演スケジュール`;
+    }
+    
+    if (descElement) {
+        descElement.textContent = classTitles[className] || '演劇公演';
+    }
+}
+
+// スケジュールテーブルを生成
+function generateScheduleTables(classData) {
+    const container = document.getElementById('schedule-tables');
+    if (!container) {
+        console.error('schedule-tables要素が見つかりません');
+        return;
+    }
     
     // 1日目と2日目のデータを分離
     const day1Data = classData.filter(row => row.day === '1日目');
     const day2Data = classData.filter(row => row.day === '2日目');
     
-    console.log('1日目のデータ:', day1Data);
-    console.log('2日目のデータ:', day2Data);
+    // HTMLを生成
+    let html = '';
     
-    // 1日目のテーブルを生成
-    generateDayTable('1日目', day1Data, 'day1-table-container');
-    
-    // 2日目のテーブルを生成
-    generateDayTable('2日目', day2Data, 'day2-table-container');
-    
-    console.log(`${className}のスケジュールテーブル生成完了`);
-    
-    // 生成完了後にページ全体の状態を確認
-    setTimeout(() => {
-        debugPageState();
-    }, 500);
-}
-
-// テスト用のスケジュールを生成する関数
-function generateTestSchedule(className) {
-    console.log(`${className}のテスト用スケジュールを生成中...`);
-    
-    // テスト用のデータ
-    const testData = [
-        { class: className, day: '1日目', time: '10:00', title: '第一公演', cast: '役者A,役者B,役者C', staff: '音響: XYZ,照明: ABC' },
-        { class: className, day: '1日目', time: '13:00', title: '第二公演', cast: '役者D,役者E,役者F', staff: '音響: DEF,照明: GHI' },
-        { class: className, day: '1日目', time: '16:00', title: '第三公演', cast: '役者G,役者H,役者I', staff: '音響: JKL,照明: MNO' },
-        { class: className, day: '2日目', time: '10:00', title: '第一公演', cast: '役者J,役者K,役者L', staff: '音響: PQR,照明: STU' },
-        { class: className, day: '2日目', time: '13:00', title: '第二公演', cast: '役者M,役者N,役者O', staff: '音響: VWX,照明: YZ' },
-        { class: className, day: '2日目', time: '16:00', title: '第三公演', cast: '役者P,役者Q,役者R', staff: '音響: ABC,照明: DEF' }
-    ];
-    
-    // テスト用データでスケジュールを生成
-    const day1Data = testData.filter(row => row.day === '1日目');
-    const day2Data = testData.filter(row => row.day === '2日目');
-    
-    console.log('テスト用1日目のデータ:', day1Data);
-    console.log('テスト用2日目のデータ:', day2Data);
-    
-    // 1日目のテーブルを生成
-    generateDayTable('1日目', day1Data, 'day1-table-container');
-    
-    // 2日目のテーブルを生成
-    generateDayTable('2日目', day2Data, 'day2-table-container');
-    
-    console.log(`${className}のテスト用スケジュール生成完了`);
-}
-
-// スケジュールヘッダーを更新
-function updateScheduleHeader(className) {
-    const header = document.getElementById('schedule-title');
-    const description = document.getElementById('schedule-description');
-    
-    if (header) {
-        header.textContent = `${className} 上演スケジュール`;
-        console.log(`ヘッダーを更新: ${className} 上演スケジュール`);
-    } else {
-        console.error('schedule-title要素が見つかりません');
+    // 1日目のテーブル
+    if (day1Data.length > 0) {
+        html += generateDayTableHTML('1日目', day1Data);
     }
     
-    if (description) {
-        description.textContent = classTitles[className] || '演劇公演';
-        console.log(`説明を更新: ${classTitles[className] || '演劇公演'}`);
-    } else {
-        console.error('schedule-description要素が見つかりません');
+    // 2日目のテーブル
+    if (day2Data.length > 0) {
+        html += generateDayTableHTML('2日目', day2Data);
     }
+    
+    // コンテナに挿入
+    container.innerHTML = html;
+    
+    console.log('スケジュールテーブルの生成完了');
 }
 
-// 日別テーブルを生成
-function generateDayTable(day, dayData, containerId) {
-    console.log(`${day}のテーブルを生成中...`, containerId, dayData);
-    
-    // 既存のテーブルコンテナを取得
-    const tableContainer = document.getElementById(containerId);
-    if (!tableContainer) {
-        console.error(`テーブルコンテナ ${containerId} が見つかりません`);
-        return;
-    }
-    
-    console.log(`${day}のテーブルコンテナを確認:`, tableContainer);
-    
-    // テーブルHTMLを生成
-    const tableHTML = `
-        <table class="schedule-table" data-day="${day}" id="table-${day}" style="display: table !important; visibility: visible !important; opacity: 1 !important; width: 100% !important; height: auto !important;">
-            <thead>
-                <tr>
-                    <th class="time-cell">時間</th>
-                    <th class="title-cell">演目</th>
-                    <th class="cast-count-cell">役者数</th>
-                    <th>役者・スタッフ</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${dayData.map((row, index) => {
-                    const castCount = row.cast.split(',').filter(cast => cast.trim().length > 0).length;
-                    const staffCount = row.staff.split(',').filter(staff => staff.trim().length > 0).length;
-                    console.log(`${day} ${row.time}の行を生成: 役者${castCount}名, スタッフ${staffCount}名`);
-                    return `
-                        <tr>
-                            <td class="time-cell">${row.time}</td>
-                            <td class="title-cell">${row.title}</td>
-                            <td class="cast-count-cell">
-                                <span class="cast-number">${castCount}名</span>
-                                <span class="staff-number">+${staffCount}名</span>
-                            </td>
-                            <td>
-                                <button class="cast-btn" data-modal="modal-${day}-${index + 1}" 
-                                        data-class="${row.class}" data-day="${row.day}" data-time="${row.time}">
-                                    詳細を見る
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                }).join('')}
-            </tbody>
-        </table>
+// 日別テーブルのHTMLを生成
+function generateDayTableHTML(day, dayData) {
+    return `
+        <div class="schedule-day">
+            <h2><i class="fas fa-calendar-day"></i> ${day}</h2>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>時間</th>
+                        <th>演目</th>
+                        <th>役者数</th>
+                        <th>詳細</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${dayData.map((row, index) => {
+                        const castCount = row.cast.split(',').filter(cast => cast.trim().length > 0).length;
+                        const staffCount = row.staff.split(',').filter(staff => staff.trim().length > 0).length;
+                        
+                        return `
+                            <tr>
+                                <td class="time-cell">${row.time}</td>
+                                <td class="title-cell">${row.title}</td>
+                                <td class="cast-count-cell">
+                                    <span class="cast-number">${castCount}名</span>
+                                    <span class="staff-number">+${staffCount}名</span>
+                                </td>
+                                <td>
+                                    <button class="cast-btn" data-modal="modal-${day}-${index + 1}">
+                                        詳細を見る
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
     `;
-    
-    // 既存のコンテナにテーブルを挿入
-    tableContainer.innerHTML = tableHTML;
-    console.log(`${day}のテーブルを ${containerId} に挿入完了`);
-    
-    // 挿入後の確認
-    const insertedTable = tableContainer.querySelector('table');
-    if (insertedTable) {
-        console.log(`${day}のテーブルが正しく挿入されました:`, insertedTable);
-        console.log(`- クラス名: ${insertedTable.className}`);
-        console.log(`- data-day属性: ${insertedTable.getAttribute('data-day')}`);
-        console.log(`- ID: ${insertedTable.id}`);
-        console.log(`- 行数: ${insertedTable.querySelectorAll('tbody tr').length}`);
-        
-        // テーブルが正しく検索できるかテスト
-        const foundByClass = document.querySelectorAll('.schedule-table');
-        const foundByAttr = document.querySelectorAll(`[data-day="${day}"]`);
-        const foundById = document.getElementById(`table-${day}`);
-        console.log(`- .schedule-table で検索: ${foundByClass.length}件`);
-        console.log(`- [data-day="${day}"] で検索: ${foundByAttr.length}件`);
-        console.log(`- ID (table-${day}) で検索: ${foundById ? '成功' : '失敗'}`);
-        
-        const buttons = insertedTable.querySelectorAll('.cast-btn');
-        console.log(`${day}の「詳細を見る」ボタン数: ${buttons.length}`);
-        
-        // 生成直後のスタイルを確認
-        const computedStyle = window.getComputedStyle(insertedTable);
-        console.log(`${day}のテーブルの生成直後スタイル:`, {
-            display: computedStyle.display,
-            visibility: computedStyle.visibility,
-            opacity: computedStyle.opacity,
-            width: computedStyle.width,
-            height: computedStyle.height
-        });
-        
-        // インラインスタイルも確認
-        console.log(`${day}のテーブルのインラインスタイル:`, {
-            display: insertedTable.style.display,
-            visibility: insertedTable.style.visibility,
-            opacity: insertedTable.style.opacity,
-            width: insertedTable.style.width,
-            height: insertedTable.style.height
-        });
-    } else {
-        console.error(`${day}のテーブルが挿入されていません`);
-    }
-    
-    // モーダルを生成
-    generateModals(day, dayData);
 }
 
 // モーダルを生成
-function generateModals(day, dayData) {
-    console.log(`${day}のモーダルを生成中...`, dayData);
-    
-    const existingModals = document.querySelectorAll(`[data-day="${day}"]`);
+function generateModals(classData) {
+    // 既存のモーダルを削除
+    const existingModals = document.querySelectorAll('.modal');
     existingModals.forEach(modal => modal.remove());
     
-    dayData.forEach((row, index) => {
-        const modal = document.createElement('div');
-        modal.id = `modal-${day}-${index + 1}`;
-        modal.className = 'modal';
-        modal.setAttribute('data-day', day);
+    // 新しいモーダルを生成
+    classData.forEach((row, index) => {
+        const day = row.day;
+        const modalId = `modal-${day}-${index + 1}`;
         
-        // 初期スタイルを設定（非表示状態）
-        modal.style.setProperty('display', 'none', 'important');
-        modal.style.setProperty('position', 'fixed', 'important');
-        modal.style.setProperty('z-index', '2000', 'important');
-        modal.style.setProperty('left', '0', 'important');
-        modal.style.setProperty('top', '0', 'important');
-        modal.style.setProperty('width', '100%', 'important');
-        modal.style.setProperty('height', '100%', 'important');
-        modal.style.setProperty('background', 'rgba(0, 0, 0, 0.4)', 'important');
-        modal.style.setProperty('opacity', '0', 'important');
-        modal.style.setProperty('visibility', 'hidden', 'important');
-        
-        // 役者リストを動的に生成（人数制限なし）
         const castList = row.cast.split(',').map(cast => cast.trim()).filter(cast => cast.length > 0);
         const staffList = row.staff.split(',').map(staff => staff.trim()).filter(staff => staff.length > 0);
         
-        console.log(`${day} ${row.time}の役者リスト:`, castList);
-        console.log(`${day} ${row.time}のスタッフリスト:`, staffList);
+        const modal = document.createElement('div');
+        modal.id = modalId;
+        modal.className = 'modal';
+        modal.style.display = 'none';
         
         modal.innerHTML = `
             <div class="modal-content">
-                <button class="close" data-modal="modal-${day}-${index + 1}">
+                <button class="close" data-modal="${modalId}">
                     <i class="fas fa-times"></i>
                 </button>
                 <h2>${row.title} 役者一覧</h2>
@@ -555,112 +268,48 @@ function generateModals(day, dayData) {
         `;
         
         document.body.appendChild(modal);
-        console.log(`モーダル ${modal.id} を生成しました（初期状態: 非表示）`);
-        
-        // モーダルの現在のスタイルを確認
-        const computedStyle = window.getComputedStyle(modal);
-        console.log(`モーダル ${modal.id} の現在のスタイル:`, {
-            display: computedStyle.display,
-            position: computedStyle.position,
-            zIndex: computedStyle.zIndex,
-            visibility: computedStyle.visibility,
-            opacity: computedStyle.opacity
-        });
     });
     
-    console.log(`${day}のモーダル生成完了`);
+    console.log('モーダルの生成完了');
 }
 
-// URLからクラス名を取得
-function getClassNameFromURL() {
-    const path = window.location.pathname;
-    console.log('getClassNameFromURL - パス:', path);
-    
-    const match = path.match(/(\d+)\.html$/);
-    console.log('getClassNameFromURL - マッチ結果:', match);
-    
-    if (match) {
-        const className = `${match[1]}組`;
-        console.log('getClassNameFromURL - 取得したクラス名:', className);
-        return className;
-    }
-    
-    console.log('getClassNameFromURL - クラス名を取得できませんでした');
-    return null;
-}
-
-// モーダルを表示する関数
-function showModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        console.log(`モーダル ${modalId} を表示中...`);
-        // モーダルを確実に表示（すべてのプロパティを明示的に設定）
-        modal.style.setProperty('display', 'block', 'important');
-        modal.style.setProperty('position', 'fixed', 'important');
-        modal.style.setProperty('z-index', '2000', 'important');
-        modal.style.setProperty('left', '0', 'important');
-        modal.style.setProperty('top', '0', 'important');
-        modal.style.setProperty('width', '100%', 'important');
-        modal.style.setProperty('height', '100%', 'important');
-        modal.style.setProperty('background', 'rgba(0, 0, 0, 0.4)', 'important');
-        modal.style.setProperty('opacity', '1', 'important');
-        modal.style.setProperty('visibility', 'visible', 'important');
-        document.body.style.overflow = 'hidden';
-        console.log(`モーダル ${modalId} を表示しました`);
-        
-        // 表示後のスタイルを確認
-        setTimeout(() => {
-            const computedStyle = window.getComputedStyle(modal);
-            console.log(`モーダル ${modalId} の表示後スタイル:`, {
-                display: computedStyle.display,
-                position: computedStyle.position,
-                zIndex: computedStyle.zIndex,
-                visibility: computedStyle.visibility,
-                opacity: computedStyle.opacity
-            });
-        }, 100);
-        
-        return true;
-    } else {
-        console.error(`モーダル ${modalId} が見つかりません`);
-        return false;
-    }
-}
-
-// モーダルを非表示にする関数
-function hideModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.setProperty('display', 'none', 'important');
-        document.body.style.overflow = 'auto';
-        console.log(`モーダル ${modalId} を非表示にしました`);
-        return true;
-    }
-    return false;
+// メインページを表示
+function displayMainPage() {
+    console.log('メインページを表示中...');
+    // メインページの処理（必要に応じて実装）
 }
 
 // モーダルハンドラーを設定
 function setupModalHandlers() {
-    // モーダルボタンのイベントリスナー
+    // モーダルを開く
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('cast-btn')) {
             const modalId = e.target.getAttribute('data-modal');
-            console.log('モーダルボタンがクリックされました:', modalId);
-            showModal(modalId);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
         }
         
+        // モーダルを閉じる
         if (e.target.classList.contains('close')) {
             const modalId = e.target.getAttribute('data-modal');
-            hideModal(modalId);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         }
     });
-
+    
     // モーダル外クリックで閉じる
     window.addEventListener('click', (event) => {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
             if (event.target === modal) {
-                hideModal(modal.id);
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         });
     });
@@ -670,98 +319,13 @@ function setupModalHandlers() {
         if (event.key === 'Escape') {
             const modals = document.querySelectorAll('.modal');
             modals.forEach(modal => {
-                if (window.getComputedStyle(modal).display === 'block') {
-                    hideModal(modal.id);
+                if (modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
                 }
             });
         }
     });
-}
-
-// カードエフェクトを設定
-function setupCardEffects() {
-    const classCards = document.querySelectorAll('.class-card');
-    classCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-8px)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0)';
-        });
-    });
-}
-
-// アニメーション効果を設定
-function setupAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    const animateElements = document.querySelectorAll('.class-card, .info-card, .hero');
-    animateElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-}
-
-// モバイルナビゲーションを生成
-function generateMobileNavigation() {
-    const mobileNavContent = document.querySelector('.mobile-nav-content');
-    if (!mobileNavContent) return;
-    
-    // ユニークなクラスを取得
-    const uniqueClasses = [...new Set(festivalData.map(row => row.class))];
-    
-    mobileNavContent.innerHTML = '';
-    
-    uniqueClasses.forEach(className => {
-        const navItem = document.createElement('a');
-        navItem.href = `${className.replace('組', '')}.html`;
-        navItem.className = 'mobile-nav-item';
-        
-        navItem.innerHTML = `
-            <i class="fas fa-users"></i>
-            <span>${className}</span>
-        `;
-        
-        mobileNavContent.appendChild(navItem);
-    });
-}
-
-// モバイルナビゲーション切り替え
-function toggleNav() {
-    const mobileNav = document.getElementById('mobile-nav');
-    if (mobileNav) {
-        mobileNav.classList.toggle('active');
-        
-        if (mobileNav.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-    }
-}
-
-// 古いサイドバー関数（後方互換性のため）
-function openSidebar() {
-    toggleNav();
-}
-
-function closeSidebar() {
-    toggleNav();
 }
 
 // エラー表示
@@ -780,45 +344,4 @@ function showError(message) {
     setTimeout(() => {
         errorDiv.remove();
     }, 5000);
-}
-
-// ページ読み込み時のアニメーション
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        const hero = document.querySelector('.hero');
-        if (hero) {
-            hero.style.opacity = '1';
-            hero.style.transform = 'translateY(0)';
-        }
-    }, 100);
-});
-
-// タッチデバイス対応
-if ('ontouchstart' in window) {
-    const touchElements = document.querySelectorAll('.class-card, .nav-toggle, .nav-close');
-    touchElements.forEach(element => {
-        element.addEventListener('touchstart', () => {
-            element.style.transform = 'scale(0.98)';
-        });
-        
-        element.addEventListener('touchend', () => {
-            element.style.transform = '';
-        });
-    });
-}
-
-// モーダルの状態をデバッグする関数
-function debugModalState() {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-        const modalId = modal.id;
-        const computedStyle = window.getComputedStyle(modal);
-        console.log(`モーダル ${modalId} の現在のスタイル:`, {
-            display: computedStyle.display,
-            position: computedStyle.position,
-            zIndex: computedStyle.zIndex,
-            visibility: computedStyle.visibility,
-            opacity: computedStyle.opacity
-        });
-    });
 }
