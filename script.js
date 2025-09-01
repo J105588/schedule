@@ -198,6 +198,82 @@ function generateClassCards() {
     generateMobileNavigation();
 }
 
+// ページ全体の状態を確認する関数（デバッグ用）
+function debugPageState() {
+    console.log('=== ページ全体の状態確認 ===');
+    
+    // メイン要素の確認
+    const main = document.querySelector('main');
+    if (main) {
+        console.log('main要素の存在: true');
+        console.log('main要素の子要素数:', main.children.length);
+        console.log('main要素の子要素:', Array.from(main.children).map(child => ({
+            tagName: child.tagName,
+            className: child.className,
+            id: child.id,
+            dataDay: child.getAttribute('data-day'),
+            textContent: child.textContent?.substring(0, 100)
+        })));
+    } else {
+        console.error('main要素が見つかりません');
+    }
+    
+    // スケジュールテーブルの確認
+    const scheduleTables = document.querySelectorAll('.schedule-table');
+    console.log('スケジュールテーブルの数:', scheduleTables.length);
+    
+    scheduleTables.forEach((table, index) => {
+        const computedStyle = window.getComputedStyle(table);
+        const rect = table.getBoundingClientRect();
+        console.log(`テーブル ${index + 1} (${table.getAttribute('data-day')}):`, {
+            display: computedStyle.display,
+            visibility: computedStyle.visibility,
+            opacity: computedStyle.opacity,
+            width: computedStyle.width,
+            height: computedStyle.height,
+            position: computedStyle.position,
+            zIndex: computedStyle.zIndex,
+            rect: {
+                top: rect.top,
+                left: rect.left,
+                width: rect.width,
+                height: rect.height,
+                visible: rect.width > 0 && rect.height > 0
+            }
+        });
+    });
+    
+    // ボタンの確認
+    const castButtons = document.querySelectorAll('.cast-btn');
+    console.log('「詳細を見る」ボタンの数:', castButtons.length);
+    
+    castButtons.forEach((btn, index) => {
+        const computedStyle = window.getComputedStyle(btn);
+        console.log(`ボタン ${index + 1}:`, {
+            text: btn.textContent,
+            dataModal: btn.getAttribute('data-modal'),
+            display: computedStyle.display,
+            visibility: computedStyle.visibility,
+            opacity: computedStyle.opacity
+        });
+    });
+    
+    // モーダルの確認
+    const modals = document.querySelectorAll('.modal');
+    console.log('モーダルの数:', modals.length);
+    
+    modals.forEach((modal, index) => {
+        const computedStyle = window.getComputedStyle(modal);
+        console.log(`モーダル ${index + 1} (${modal.id}):`, {
+            display: computedStyle.display,
+            visibility: computedStyle.visibility,
+            opacity: computedStyle.opacity,
+            position: computedStyle.position,
+            zIndex: computedStyle.zIndex
+        });
+    });
+}
+
 // スケジュールテーブルを生成
 function generateScheduleTable(className) {
     console.log(`${className}のスケジュールテーブルを生成中...`);
@@ -228,9 +304,9 @@ function generateScheduleTable(className) {
     
     console.log(`${className}のスケジュールテーブル生成完了`);
     
-    // 生成完了後にモーダルの状態を確認
+    // 生成完了後にページ全体の状態を確認
     setTimeout(() => {
-        debugModalState();
+        debugPageState();
     }, 500);
 }
 
