@@ -205,6 +205,9 @@ function generateDayTableHTML(day, dayData) {
                         const castCount = row.cast.split(',').filter(cast => cast.trim().length > 0).length;
                         const staffCount = row.staff.split(',').filter(staff => staff.trim().length > 0).length;
                         
+                        // ユニークなモーダルIDを生成（日付と時間を組み合わせ）
+                        const modalId = `modal-${day}-${row.time.replace(':', '-')}`;
+                        
                         return `
                             <tr>
                                 <td class="time-cell">${row.time}</td>
@@ -214,7 +217,7 @@ function generateDayTableHTML(day, dayData) {
                                     <span class="staff-number">+${staffCount}名</span>
                                 </td>
                                 <td>
-                                    <button class="cast-btn" data-modal="modal-${day}-${index + 1}">
+                                    <button class="cast-btn" data-modal="${modalId}">
                                         詳細を見る
                                     </button>
                                 </td>
@@ -233,10 +236,15 @@ function generateModals(classData) {
     const existingModals = document.querySelectorAll('.modal');
     existingModals.forEach(modal => modal.remove());
     
+    console.log('モーダル生成開始:', classData.length, '件のデータ');
+    
     // 新しいモーダルを生成
-    classData.forEach((row, index) => {
+    classData.forEach((row) => {
         const day = row.day;
-        const modalId = `modal-${day}-${index + 1}`;
+        // ユニークなモーダルIDを生成（日付と時間を組み合わせ）
+        const modalId = `modal-${day}-${row.time.replace(':', '-')}`;
+        
+        console.log(`モーダル生成中: ${modalId} (${day} ${row.time})`);
         
         // CSVから役者とスタッフの情報を取得
         const castList = row.cast.split(',').map(cast => cast.trim()).filter(cast => cast.length > 0);
@@ -273,6 +281,14 @@ function generateModals(classData) {
         `;
         
         document.body.appendChild(modal);
+        console.log(`モーダル ${modalId} を生成しました`);
+    });
+    
+    // 生成されたモーダルの確認
+    const allModals = document.querySelectorAll('.modal');
+    console.log('生成されたモーダル数:', allModals.length);
+    allModals.forEach(modal => {
+        console.log('モーダルID:', modal.id);
     });
     
     console.log('モーダルの生成完了');
@@ -441,16 +457,23 @@ function setupModalHandlers() {
             if (modal) {
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                console.log(`モーダル ${modalId} を開きました`);
+            } else {
+                console.error(`モーダル ${modalId} が見つかりません`);
             }
         }
         
-        // モーダルを閉じる
-        if (e.target.classList.contains('close')) {
-            const modalId = e.target.getAttribute('data-modal');
+        // モーダルを閉じる（×ボタン）
+        if (e.target.classList.contains('close') || e.target.closest('.close')) {
+            const closeButton = e.target.classList.contains('close') ? e.target : e.target.closest('.close');
+            const modalId = closeButton.getAttribute('data-modal');
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
+                console.log(`モーダル ${modalId} を閉じました`);
+            } else {
+                console.error(`モーダル ${modalId} が見つかりません`);
             }
         }
     });
@@ -462,6 +485,7 @@ function setupModalHandlers() {
             if (event.target === modal) {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
+                console.log(`モーダル外クリックでモーダルを閉じました`);
             }
         });
     });
@@ -474,6 +498,7 @@ function setupModalHandlers() {
                 if (modal.style.display === 'block') {
                     modal.style.display = 'none';
                     document.body.style.overflow = 'auto';
+                    console.log('ESCキーでモーダルを閉じました');
                 }
             });
         }
