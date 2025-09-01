@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // サイドバー機能を設定
     setupSidebarHandlers();
+    
+    // カウントダウン機能を開始
+    startCountdown();
 });
 
 // CSVファイルを読み込む
@@ -521,4 +524,51 @@ function showError(message) {
     setTimeout(() => {
         errorDiv.remove();
     }, 5000);
+}
+
+// カウントダウン機能
+function startCountdown() {
+    // 演劇祭の開始日時を設定（日本時間 2025年9月20日 9:15）
+    const festivalDate = new Date('2025-09-20T09:15:00+09:00');
+    
+    function updateCountdown() {
+        // 現在の日本時間を取得
+        const now = new Date();
+        const jstOffset = 9 * 60; // 日本時間のオフセット（分）
+        const localOffset = now.getTimezoneOffset(); // ローカル時間のオフセット（分）
+        const totalOffset = (jstOffset + localOffset) * 60 * 1000; // ミリ秒に変換
+        
+        const nowJST = new Date(now.getTime() + totalOffset);
+        const timeLeft = festivalDate - nowJST;
+        
+        if (timeLeft > 0) {
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            // カウントダウン要素を更新
+            const daysElement = document.getElementById('countdown-days');
+            const hoursElement = document.getElementById('countdown-hours');
+            const minutesElement = document.getElementById('countdown-minutes');
+            const secondsElement = document.getElementById('countdown-seconds');
+            
+            if (daysElement) daysElement.textContent = days;
+            if (hoursElement) hoursElement.textContent = hours;
+            if (minutesElement) minutesElement.textContent = minutes;
+            if (secondsElement) secondsElement.textContent = seconds;
+        } else {
+            // 演劇祭が開始された場合
+            const countdownSection = document.getElementById('countdown-section');
+            if (countdownSection) {
+                countdownSection.innerHTML = '<div class="festival-started">演劇祭開催中！</div>';
+            }
+        }
+    }
+    
+    // 初回更新
+    updateCountdown();
+    
+    // 1秒ごとに更新
+    setInterval(updateCountdown, 1000);
 }
