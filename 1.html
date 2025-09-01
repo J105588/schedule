@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クラス1 - 演劇祭スケジュール</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>クラス1 上演スケジュール</h1>
+        <span class="open-sidebar" onclick="openSidebar()">☰</span>
+    </header>
+    <main>
+        <h2>1日目</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>時間</th>
+                    <th>演目</th>
+                    <th>役者</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>10:00</td>
+                    <td>演目A</td>
+                    <td><button class="modal-btn" data-modal="modal1-1">役者一覧</button></td>
+                </tr>
+                <tr>
+                    <td>13:00</td>
+                    <td>演目B</td>
+                    <td><button class="modal-btn" data-modal="modal1-2">役者一覧</button></td>
+                </tr>
+                <tr>
+                    <td>16:00</td>
+                    <td>演目C</td>
+                    <td><button class="modal-btn" data-modal="modal1-3">役者一覧</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>2日目</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>時間</th>
+                    <th>演目</th>
+                    <th>役者</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>10:00</td>
+                    <td>演目D</td>
+                    <td><button class="modal-btn" data-modal="modal1-4">役者一覧</button></td>
+                </tr>
+                <tr>
+                    <td>13:00</td>
+                    <td>演目E</td>
+                    <td><button class="modal-btn" data-modal="modal1-5">役者一覧</button></td>
+                </tr>
+                <tr>
+                    <td>16:00</td>
+                    <td>演目F</td>
+                    <td><button class="modal-btn" data-modal="modal1-6">役者一覧</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2025 演劇祭</p>
+    </footer>
+
+    <!-- モーダルウィンドウ -->
+    <div id="modal1-1" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="modal1-1">&times;</span>
+            <h2>演目A 役者一覧</h2>
+            <ul>
+                <li>1. 役者1</li>
+                <li>2. 役者2</li>
+                <li>3. 役者3</li>
+            </ul>
+            <h3>音響・照明</h3>
+            <ul>
+                <li>音響担当: 1. XYZ</li>
+                <li>照明担当: 2. ABC</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal1-2" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="modal1-2">&times;</span>
+            <h2>演目B 役者一覧</h2>
+            <ul>
+                <li>4. 役者4</li>
+                <li>5. 役者5</li>
+                <li>6. 役者6</li>
+            </ul>
+            <h3>音響・照明</h3>
+            <ul>
+                <li>音響担当: 1. DEF</li>
+                <li>照明担当: 2. GHI</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal1-3" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="modal1-3">&times;</span>
+            <h2>演目C 役者一覧</h2>
+            <ul>
+                <li>7. 役者7</li>
+                <li>8. 役者8</li>
+                <li>9. 役者9</li>
+            </ul>
+            <h3>音響・照明</h3>
+            <ul>
+                <li>音響担当: 1. JKL</li>
+                <li>照明担当: 2. MNO</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal1-4" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="modal1-4">&times;</span>
+            <h2>演目D 役者一覧</h2>
+            <ul>
+                <li>10. 役者10</li>
+                <li>11. 役者11</li>
+                <li>12. 役者12</li>
+            </ul>
+            <h3>音響・照明</h3>
+            <ul>
+                <li>音響担当: 1. PQR</li>
+                <li>照明担当: 2. STU</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal1-5" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="modal1-5">&times;</span>
+            <h2>演目E 役者一覧</h2>
+            <ul>
+                <li>13. 役者13</li>
+                <li>14. 役者14</li>
+                <li>15. 役者15</li>
+            </ul>
+            <h3>音響・照明</h3>
+            <ul>
+                <li>音響担当: 1. VWX</li>
+                <li>照明担当: 2. YZ</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal1-6" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="modal1-6">&times;</span>
+            <h2>演目F 役者一覧</h2>
+            <ul>
+                <li>16. 役者16</li>
+                <li>17. 役者17</li>
+                <li>18. 役者18</li>
+            </ul>
+            <h3>音響・照明</h3>
+            <ul>
+                <li>音響担当: 1. ABC</li>
+                <li>照明担当: 2. DEF</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>
