@@ -34,13 +34,27 @@ document.addEventListener('DOMContentLoaded', () => {
 // CSVファイルを読み込む
 async function loadCSVData() {
     try {
-        console.log('CSVファイルの読み込みを開始...');
+        console.log('=== CSVファイルの読み込みを開始 ===');
+        console.log('現在のURL:', window.location.href);
+        console.log('ページタイトル:', document.title);
+        
         const response = await fetch('data.csv');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const csvText = await response.text();
-        console.log('CSVファイルの内容:', csvText.substring(0, 200) + '...');
+        console.log('CSVファイルの内容（最初の200文字）:', csvText.substring(0, 200) + '...');
+        console.log('CSVファイルの総文字数:', csvText.length);
         
         festivalData = parseCSV(csvText);
         console.log('パースされたデータ:', festivalData);
+        console.log('データの行数:', festivalData.length);
+        
+        if (festivalData.length > 0) {
+            console.log('最初の行のサンプル:', festivalData[0]);
+            console.log('利用可能なクラス:', [...new Set(festivalData.map(row => row.class))]);
+        }
         
         // メインページの場合はクラスカードを生成
         if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
@@ -53,10 +67,21 @@ async function loadCSVData() {
             const className = getClassNameFromURL();
             console.log('個別クラスページ: クラス名 =', className);
             if (className) {
-                generateScheduleTable(className);
-                generateMobileNavigation();
+                console.log(`${className}のデータをフィルタリング中...`);
+                const classData = festivalData.filter(row => row.class === className);
+                console.log(`${className}のデータ数:`, classData.length);
+                if (classData.length > 0) {
+                    generateScheduleTable(className);
+                    generateMobileNavigation();
+                } else {
+                    console.error(`${className}のデータが見つかりません`);
+                }
+            } else {
+                console.error('クラス名を取得できませんでした');
             }
         }
+        
+        console.log('=== CSVファイルの読み込み完了 ===');
         
     } catch (error) {
         console.error('CSVファイルの読み込みに失敗しました:', error);
