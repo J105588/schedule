@@ -412,7 +412,7 @@ function generateDayTable(day, dayData, containerId) {
     
     // テーブルHTMLを生成
     const tableHTML = `
-        <table class="schedule-table" data-day="${day}" style="display: table; visibility: visible; opacity: 1;">
+        <table class="schedule-table" data-day="${day}" id="table-${day}" style="display: table !important; visibility: visible !important; opacity: 1 !important; width: 100% !important; height: auto !important;">
             <thead>
                 <tr>
                     <th class="time-cell">時間</th>
@@ -457,13 +457,16 @@ function generateDayTable(day, dayData, containerId) {
         console.log(`${day}のテーブルが正しく挿入されました:`, insertedTable);
         console.log(`- クラス名: ${insertedTable.className}`);
         console.log(`- data-day属性: ${insertedTable.getAttribute('data-day')}`);
+        console.log(`- ID: ${insertedTable.id}`);
         console.log(`- 行数: ${insertedTable.querySelectorAll('tbody tr').length}`);
         
         // テーブルが正しく検索できるかテスト
         const foundByClass = document.querySelectorAll('.schedule-table');
         const foundByAttr = document.querySelectorAll(`[data-day="${day}"]`);
+        const foundById = document.getElementById(`table-${day}`);
         console.log(`- .schedule-table で検索: ${foundByClass.length}件`);
         console.log(`- [data-day="${day}"] で検索: ${foundByAttr.length}件`);
+        console.log(`- ID (table-${day}) で検索: ${foundById ? '成功' : '失敗'}`);
         
         const buttons = insertedTable.querySelectorAll('.cast-btn');
         console.log(`${day}の「詳細を見る」ボタン数: ${buttons.length}`);
@@ -476,6 +479,15 @@ function generateDayTable(day, dayData, containerId) {
             opacity: computedStyle.opacity,
             width: computedStyle.width,
             height: computedStyle.height
+        });
+        
+        // インラインスタイルも確認
+        console.log(`${day}のテーブルのインラインスタイル:`, {
+            display: insertedTable.style.display,
+            visibility: insertedTable.style.visibility,
+            opacity: insertedTable.style.opacity,
+            width: insertedTable.style.width,
+            height: insertedTable.style.height
         });
     } else {
         console.error(`${day}のテーブルが挿入されていません`);
