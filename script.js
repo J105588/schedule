@@ -214,6 +214,9 @@ function debugPageState() {
             dataDay: child.getAttribute('data-day'),
             textContent: child.textContent?.substring(0, 100)
         })));
+        
+        // main要素の現在のHTMLも確認
+        console.log('main要素の現在のHTML:', main.innerHTML.substring(0, 500) + '...');
     } else {
         console.error('main要素が見つかりません');
     }
@@ -241,6 +244,25 @@ function debugPageState() {
                 visible: rect.width > 0 && rect.height > 0
             }
         });
+        
+        // テーブルの親要素も確認
+        const parent = table.parentElement;
+        if (parent) {
+            console.log(`テーブル ${index + 1} の親要素:`, {
+                tagName: parent.tagName,
+                className: parent.className,
+                id: parent.id
+            });
+        }
+        
+        // テーブルの兄弟要素も確認
+        const siblings = Array.from(parent?.children || []);
+        console.log(`テーブル ${index + 1} の兄弟要素:`, siblings.map(sibling => ({
+            tagName: sibling.tagName,
+            className: sibling.className,
+            id: sibling.id,
+            dataDay: sibling.getAttribute('data-day')
+        })));
     });
     
     // ボタンの確認
@@ -272,6 +294,21 @@ function debugPageState() {
             zIndex: computedStyle.zIndex
         });
     });
+    
+    // ページ全体のレイアウト確認
+    console.log('=== ページレイアウト確認 ===');
+    const body = document.body;
+    const html = document.documentElement;
+    console.log('body要素のスタイル:', {
+        margin: getComputedStyle(body).margin,
+        padding: getComputedStyle(body).padding,
+        overflow: getComputedStyle(body).overflow
+    });
+    console.log('html要素のスタイル:', {
+        margin: getComputedStyle(html).margin,
+        padding: getComputedStyle(html).padding,
+        overflow: getComputedStyle(html).overflow
+    });
 }
 
 // スケジュールテーブルを生成
@@ -297,10 +334,10 @@ function generateScheduleTable(className) {
     console.log('2日目のデータ:', day2Data);
     
     // 1日目のテーブルを生成
-    generateDayTable('1日目', day1Data);
+    generateDayTable('1日目', day1Data, 'day1-table-container');
     
     // 2日目のテーブルを生成
-    generateDayTable('2日目', day2Data);
+    generateDayTable('2日目', day2Data, 'day2-table-container');
     
     console.log(`${className}のスケジュールテーブル生成完了`);
     
@@ -332,51 +369,50 @@ function generateTestSchedule(className) {
     console.log('テスト用2日目のデータ:', day2Data);
     
     // 1日目のテーブルを生成
-    generateDayTable('1日目', day1Data);
+    generateDayTable('1日目', day1Data, 'day1-table-container');
     
     // 2日目のテーブルを生成
-    generateDayTable('2日目', day2Data);
+    generateDayTable('2日目', day2Data, 'day2-table-container');
     
     console.log(`${className}のテスト用スケジュール生成完了`);
 }
 
 // スケジュールヘッダーを更新
 function updateScheduleHeader(className) {
-    const header = document.querySelector('.schedule-header h1');
-    const description = document.querySelector('.schedule-header p');
+    const header = document.getElementById('schedule-title');
+    const description = document.getElementById('schedule-description');
     
     if (header) {
         header.textContent = `${className} 上演スケジュール`;
+        console.log(`ヘッダーを更新: ${className} 上演スケジュール`);
+    } else {
+        console.error('schedule-title要素が見つかりません');
     }
     
     if (description) {
         description.textContent = classTitles[className] || '演劇公演';
+        console.log(`説明を更新: ${classTitles[className] || '演劇公演'}`);
+    } else {
+        console.error('schedule-description要素が見つかりません');
     }
 }
 
 // 日別テーブルを生成
-function generateDayTable(day, dayData) {
-    console.log(`${day}のテーブルを生成中...`, dayData);
+function generateDayTable(day, dayData, containerId) {
+    console.log(`${day}のテーブルを生成中...`, containerId, dayData);
     
-    const existingTable = document.querySelector(`[data-day="${day}"]`);
-    if (existingTable) {
-        existingTable.remove();
+    // 既存のテーブルコンテナを取得
+    const tableContainer = document.getElementById(containerId);
+    if (!tableContainer) {
+        console.error(`テーブルコンテナ ${containerId} が見つかりません`);
+        return;
     }
     
-    const main = document.querySelector('main');
-    const tableContainer = document.createElement('div');
-    tableContainer.className = 'schedule-table';
-    tableContainer.setAttribute('data-day', day);
+    console.log(`${day}のテーブルコンテナを確認:`, tableContainer);
     
-    // テーブルが確実に表示されるように初期スタイルを設定
-    tableContainer.style.setProperty('display', 'block', 'important');
-    tableContainer.style.setProperty('visibility', 'visible', 'important');
-    tableContainer.style.setProperty('opacity', '1', 'important');
-    
-    console.log(`${day}のテーブルHTMLを生成中...`);
-    tableContainer.innerHTML = `
-        <h2><i class="fas fa-calendar-day"></i> ${day}</h2>
-        <table>
+    // テーブルHTMLを生成
+    const tableHTML = `
+        <table class="schedule-table" data-day="${day}">
             <thead>
                 <tr>
                     <th class="time-cell">時間</th>
@@ -411,20 +447,12 @@ function generateDayTable(day, dayData) {
         </table>
     `;
     
-    // 情報セクションの前に挿入
-    const infoSection = document.querySelector('.info-section');
-    if (infoSection) {
-        console.log(`${day}のテーブルを情報セクションの前に挿入中...`);
-        main.insertBefore(tableContainer, infoSection);
-    } else {
-        console.log(`${day}のテーブルをmainの最後に追加中...`);
-        main.appendChild(tableContainer);
-    }
-    
-    console.log(`${day}のテーブル生成完了`);
+    // 既存のコンテナにテーブルを挿入
+    tableContainer.innerHTML = tableHTML;
+    console.log(`${day}のテーブルを ${containerId} に挿入完了`);
     
     // 生成されたテーブルの確認
-    const generatedTable = document.querySelector(`[data-day="${day}"]`);
+    const generatedTable = tableContainer.querySelector('.schedule-table');
     if (generatedTable) {
         console.log(`${day}のテーブルが正しく生成されました:`, generatedTable);
         const buttons = generatedTable.querySelectorAll('.cast-btn');
@@ -435,7 +463,9 @@ function generateDayTable(day, dayData) {
         console.log(`${day}のテーブルの生成直後スタイル:`, {
             display: computedStyle.display,
             visibility: computedStyle.visibility,
-            opacity: computedStyle.opacity
+            opacity: computedStyle.opacity,
+            width: computedStyle.width,
+            height: computedStyle.height
         });
     } else {
         console.error(`${day}のテーブルが生成されていません`);

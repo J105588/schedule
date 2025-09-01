@@ -35,11 +35,28 @@
                     <i class="fas fa-arrow-left"></i>
                     ホームに戻る
                 </a>
-                <h1>1組 上演スケジュール</h1>
-                <p>話が違う！</p>
+                <h1 id="schedule-title">1組 上演スケジュール</h1>
+                <p id="schedule-description">話が違う！</p>
             </div>
 
-            <!-- スケジュールテーブルはJavaScriptで動的に生成されます -->
+            <!-- スケジュールテーブル -->
+            <div id="schedule-container">
+                <!-- 1日目のスケジュール -->
+                <div id="day1-schedule" class="schedule-day">
+                    <h2><i class="fas fa-calendar-day"></i> 1日目</h2>
+                    <div id="day1-table-container" class="table-container">
+                        <!-- テーブルはJavaScriptで動的に生成されます -->
+                    </div>
+                </div>
+                
+                <!-- 2日目のスケジュール -->
+                <div id="day2-schedule" class="schedule-day">
+                    <h2><i class="fas fa-calendar-day"></i> 2日目</h2>
+                    <div id="day2-table-container" class="table-container">
+                        <!-- テーブルはJavaScriptで動的に生成されます -->
+                    </div>
+                </div>
+            </div>
             
             <!-- 公演情報 -->
             <section class="info-section">
