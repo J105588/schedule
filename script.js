@@ -285,6 +285,8 @@ function generateModals(day, dayData) {
         modal.style.setProperty('width', '100%', 'important');
         modal.style.setProperty('height', '100%', 'important');
         modal.style.setProperty('background', 'rgba(0, 0, 0, 0.4)', 'important');
+        modal.style.setProperty('opacity', '0', 'important');
+        modal.style.setProperty('visibility', 'hidden', 'important');
         
         // 役者リストを動的に生成（人数制限なし）
         const castList = row.cast.split(',').map(cast => cast.trim()).filter(cast => cast.length > 0);
@@ -350,6 +352,7 @@ function showModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         console.log(`モーダル ${modalId} を表示中...`);
+        // モーダルを確実に表示（すべてのプロパティを明示的に設定）
         modal.style.setProperty('display', 'block', 'important');
         modal.style.setProperty('position', 'fixed', 'important');
         modal.style.setProperty('z-index', '2000', 'important');
@@ -358,6 +361,8 @@ function showModal(modalId) {
         modal.style.setProperty('width', '100%', 'important');
         modal.style.setProperty('height', '100%', 'important');
         modal.style.setProperty('background', 'rgba(0, 0, 0, 0.4)', 'important');
+        modal.style.setProperty('opacity', '1', 'important');
+        modal.style.setProperty('visibility', 'visible', 'important');
         document.body.style.overflow = 'hidden';
         console.log(`モーダル ${modalId} を表示しました`);
         
@@ -368,7 +373,8 @@ function showModal(modalId) {
                 display: computedStyle.display,
                 position: computedStyle.position,
                 zIndex: computedStyle.zIndex,
-                visibility: computedStyle.visibility
+                visibility: computedStyle.visibility,
+                opacity: computedStyle.opacity
             });
         }, 100);
         
