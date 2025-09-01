@@ -6,35 +6,201 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>演劇祭スケジュール</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="script.js" defer></script>
 </head>
 
 <body>
-    <header>
-        <h1>演劇祭スケジュール</h1>
-        <span class="open-sidebar" onclick="openSidebar()">☰</span>
-    </header>
-    <main>
-        <h2>各クラスのスケジュールを確認してください</h2>
-    </main>
-    <footer>
-        <p>&copy; 2025 演劇祭</p>
-    </footer>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-theater-masks"></i>
+                    <h1>演劇祭スケジュール</h1>
+                </div>
+                <nav class="nav">
+                    <button class="nav-toggle" onclick="toggleNav()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </nav>
+            </div>
+        </header>
 
-    <!-- サイドバー -->
-    <div id="sidebar" class="sidebar">
-        <span class="close" onclick="closeSidebar()">&times;</span>
-        <h2>クラス選択</h2>
-        <ul>
-            <li><a href="1.html">クラス1</a></li>
-            <li><a href="2.html">クラス2</a></li>
-            <li><a href="3.html">クラス3</a></li>
-            <li><a href="4.html">クラス4</a></li>
-            <li><a href="5.html">クラス5</a></li>
-            <li><a href="6.html">クラス6</a></li>
-            <li><a href="7.html">クラス7</a></li>
-            <li><a href="8.html">クラス8</a></li>
-        </ul>
+        <!-- メインコンテンツ -->
+        <main class="main">
+            <div class="hero">
+                <div class="hero-content">
+                    <h2>2025年 演劇祭</h2>
+                    <p>各クラスの素晴らしい公演スケジュールをご確認ください</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label">クラス</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">2</span>
+                            <span class="stat-label">日間</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">48</span>
+                            <span class="stat-label">公演</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="classes-section">
+                <h3>クラス選択</h3>
+                <div class="classes-grid">
+                    <a href="1.html" class="class-card">
+                        <div class="class-card-header">
+                            <i class="fas fa-users"></i>
+                            <h4>クラス1</h4>
+                        </div>
+                        <div class="class-card-content">
+                            <p>6つの公演を予定</p>
+                            <span class="schedule-badge">1日目・2日目</span>
+                        </div>
+                    </a>
+                    <a href="2.html" class="class-card">
+                        <div class="class-card-header">
+                            <i class="fas fa-users"></i>
+                            <h4>クラス2</h4>
+                        </div>
+                        <div class="class-card-content">
+                            <p>6つの公演を予定</p>
+                            <span class="schedule-badge">1日目・2日目</span>
+                        </div>
+                    </a>
+                    <a href="3.html" class="class-card">
+                        <div class="class-card-header">
+                            <i class="fas fa-users"></i>
+                            <h4>クラス3</h4>
+                        </div>
+                        <div class="class-card-content">
+                            <p>6つの公演を予定</p>
+                            <span class="schedule-badge">1日目・2日目</span>
+                        </div>
+                    </a>
+                    <a href="4.html" class="class-card">
+                        <div class="class-card-header">
+                            <i class="fas fa-users"></i>
+                            <h4>クラス4</h4>
+                        </div>
+                        <div class="class-card-content">
+                            <p>6つの公演を予定</p>
+                            <span class="schedule-badge">1日目・2日目</span>
+                        </div>
+                    </a>
+                    <a href="5.html" class="class-card">
+                        <div class="class-card-header">
+                            <i class="fas fa-users"></i>
+                            <h4>クラス5</h4>
+                        </div>
+                        <div class="class-card-content">
+                            <p>6つの公演を予定</p>
+                            <span class="schedule-badge">1日目・2日目</span>
+                        </div>
+                    </a>
+                    <a href="6.html" class="class-card">
+                        <div class="class-card-header">
+                            <i class="fas fa-users"></i>
+                            <h4>クラス6</h4>
+                        </div>
+                        <div class="class-card-content">
+                            <p>6つの公演を予定</p>
+                            <span class="schedule-badge">1日目・2日目</span>
+                        </div>
+                    </a>
+                    <a href="7.html" class="class-card">
+                        <div class="class-card-header">
+                            <i class="fas fa-users"></i>
+                            <h4>クラス7</h4>
+                        </div>
+                        <div class="class-card-content">
+                            <p>6つの公演を予定</p>
+                            <span class="schedule-badge">1日目・2日目</span>
+                        </div>
+                    </a>
+                    <a href="8.html" class="class-card">
+                        <div class="class-card-header">
+                            <i class="fas fa-users"></i>
+                            <h4>クラス8</h4>
+                        </div>
+                        <div class="class-card-content">
+                            <p>6つの公演を予定</p>
+                            <span class="schedule-badge">1日目・2日目</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <div class="info-card">
+                    <i class="fas fa-info-circle"></i>
+                    <h4>公演について</h4>
+                    <p>各クラスは1日3公演、2日間で合計6公演を行います。公演時間は約30分です。</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-clock"></i>
+                    <h4>開演時間</h4>
+                    <p>10:00 / 13:00 / 16:00 の3回公演を行います。</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- フッター -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 演劇祭 - すべての公演にご期待ください</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- モバイルナビゲーション -->
+    <div id="mobile-nav" class="mobile-nav">
+        <div class="mobile-nav-header">
+            <h3>クラス選択</h3>
+            <button class="nav-close" onclick="toggleNav()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-content">
+            <a href="1.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>クラス1</span>
+            </a>
+            <a href="2.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>クラス2</span>
+            </a>
+            <a href="3.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>クラス3</span>
+            </a>
+            <a href="4.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>クラス4</span>
+            </a>
+            <a href="5.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>クラス5</span>
+            </a>
+            <a href="6.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>クラス6</span>
+            </a>
+            <a href="7.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>クラス7</span>
+            </a>
+            <a href="8.html" class="mobile-nav-item">
+                <i class="fas fa-users"></i>
+                <span>クラス8</span>
+            </a>
+        </div>
     </div>
 </body>
 
