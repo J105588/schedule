@@ -751,6 +751,15 @@ p {
     font-size: 1.1rem;
 }
 
+/* 区切り線 */
+.section-divider {
+    margin: 3rem 2rem;
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    opacity: 0.6;
+}
+
 /* 公演情報セクション */
 .info-section {
     display: grid;
