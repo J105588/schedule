@@ -315,38 +315,53 @@ p {
 
 .countdown-item {
     text-align: center;
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     border-radius: var(--border-radius-small);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    min-width: 100px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    min-width: 120px;
     transition: var(--transition);
+    box-shadow: var(--shadow-medium);
 }
 
 .countdown-item:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: var(--shadow-medium);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: var(--shadow-heavy);
+    border-color: var(--primary-color);
 }
 
 .countdown-number {
     display: block;
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 700;
-    color: white;
+    color: var(--primary-color);
     line-height: 1;
     margin-bottom: 0.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .countdown-label {
     display: block;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.countdown-description {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.countdown-description p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.8;
 }
 
 .festival-started {
