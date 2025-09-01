@@ -28,18 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
 // CSVファイルを読み込む
 async function loadCSVData() {
     try {
+        console.log('CSVファイルの読み込みを開始...');
         const response = await fetch('data.csv');
         const csvText = await response.text();
+        console.log('CSVファイルの内容:', csvText.substring(0, 200) + '...');
+        
         festivalData = parseCSV(csvText);
+        console.log('パースされたデータ:', festivalData);
         
         // メインページの場合はクラスカードを生成
         if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
+            console.log('メインページ: クラスカードを生成中...');
             generateClassCards();
         }
         
         // 個別クラスページの場合はスケジュールテーブルを生成
         else if (window.location.pathname.includes('.html')) {
             const className = getClassNameFromURL();
+            console.log('個別クラスページ: クラス名 =', className);
             if (className) {
                 generateScheduleTable(className);
                 generateMobileNavigation();
@@ -143,8 +149,15 @@ function generateClassCards() {
 
 // スケジュールテーブルを生成
 function generateScheduleTable(className) {
+    console.log(`${className}のスケジュールテーブルを生成中...`);
+    
     const classData = festivalData.filter(row => row.class === className);
-    if (classData.length === 0) return;
+    if (classData.length === 0) {
+        console.error(`${className}のデータが見つかりません`);
+        return;
+    }
+    
+    console.log(`${className}のデータ:`, classData);
     
     // ヘッダーを更新
     updateScheduleHeader(className);
@@ -153,11 +166,16 @@ function generateScheduleTable(className) {
     const day1Data = classData.filter(row => row.day === '1日目');
     const day2Data = classData.filter(row => row.day === '2日目');
     
+    console.log('1日目のデータ:', day1Data);
+    console.log('2日目のデータ:', day2Data);
+    
     // 1日目のテーブルを生成
     generateDayTable('1日目', day1Data);
     
     // 2日目のテーブルを生成
     generateDayTable('2日目', day2Data);
+    
+    console.log(`${className}のスケジュールテーブル生成完了`);
 }
 
 // スケジュールヘッダーを更新
@@ -236,6 +254,8 @@ function generateDayTable(day, dayData) {
 
 // モーダルを生成
 function generateModals(day, dayData) {
+    console.log(`${day}のモーダルを生成中...`, dayData);
+    
     const existingModals = document.querySelectorAll(`[data-day="${day}"]`);
     existingModals.forEach(modal => modal.remove());
     
@@ -248,6 +268,9 @@ function generateModals(day, dayData) {
         // 役者リストを動的に生成（人数制限なし）
         const castList = row.cast.split(',').map(cast => cast.trim()).filter(cast => cast.length > 0);
         const staffList = row.staff.split(',').map(staff => staff.trim()).filter(staff => staff.length > 0);
+        
+        console.log(`${day} ${row.time}の役者リスト:`, castList);
+        console.log(`${day} ${row.time}のスタッフリスト:`, staffList);
         
         modal.innerHTML = `
             <div class="modal-content">
@@ -275,7 +298,10 @@ function generateModals(day, dayData) {
         `;
         
         document.body.appendChild(modal);
+        console.log(`モーダル ${modal.id} を生成しました`);
     });
+    
+    console.log(`${day}のモーダル生成完了`);
 }
 
 // URLからクラス名を取得
@@ -294,10 +320,23 @@ function setupModalHandlers() {
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('cast-btn')) {
             const modalId = e.target.getAttribute('data-modal');
+            console.log('モーダルボタンがクリックされました:', modalId);
             const modal = document.getElementById(modalId);
             if (modal) {
+                console.log('モーダルが見つかりました:', modal);
+                // モーダルを確実に表示
                 modal.style.display = 'block';
+                modal.style.position = 'fixed';
+                modal.style.zIndex = '2000';
+                modal.style.left = '0';
+                modal.style.top = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.background = 'rgba(0, 0, 0, 0.4)';
                 document.body.style.overflow = 'hidden';
+                console.log('モーダルを表示しました');
+            } else {
+                console.error('モーダルが見つかりません:', modalId);
             }
         }
         
@@ -307,6 +346,7 @@ function setupModalHandlers() {
             if (modal) {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
+                console.log('モーダルを閉じました:', modalId);
             }
         }
     });
@@ -318,6 +358,7 @@ function setupModalHandlers() {
             if (event.target === modal) {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
+                console.log('モーダル外クリックで閉じました');
             }
         });
     });
@@ -330,6 +371,7 @@ function setupModalHandlers() {
                 if (modal.style.display === 'block') {
                     modal.style.display = 'none';
                     document.body.style.overflow = 'auto';
+                    console.log('ESCキーでモーダルを閉じました');
                 }
             });
         }
