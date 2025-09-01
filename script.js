@@ -12,6 +12,10 @@ let classTitles = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('=== ページ読み込み開始 ===');
+    console.log('現在のURL:', window.location.href);
+    console.log('ページタイトル:', document.title);
+    
     // CSVファイルを読み込む
     loadCSVData();
     
@@ -23,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // アニメーション効果
     setupAnimations();
+    
+    console.log('=== ページ読み込み完了 ===');
 });
 
 // CSVファイルを読み込む
@@ -176,6 +182,11 @@ function generateScheduleTable(className) {
     generateDayTable('2日目', day2Data);
     
     console.log(`${className}のスケジュールテーブル生成完了`);
+    
+    // 生成完了後にモーダルの状態を確認
+    setTimeout(() => {
+        debugModalState();
+    }, 500);
 }
 
 // スケジュールヘッダーを更新
@@ -265,7 +276,8 @@ function generateModals(day, dayData) {
         modal.className = 'modal';
         modal.setAttribute('data-day', day);
         
-        // 初期スタイルを設定
+        // 初期スタイルを設定（非表示状態）
+        modal.style.setProperty('display', 'none', 'important');
         modal.style.setProperty('position', 'fixed', 'important');
         modal.style.setProperty('z-index', '2000', 'important');
         modal.style.setProperty('left', '0', 'important');
@@ -307,11 +319,12 @@ function generateModals(day, dayData) {
         `;
         
         document.body.appendChild(modal);
-        console.log(`モーダル ${modal.id} を生成しました`);
+        console.log(`モーダル ${modal.id} を生成しました（初期状態: 非表示）`);
         
         // モーダルの現在のスタイルを確認
         const computedStyle = window.getComputedStyle(modal);
         console.log(`モーダル ${modal.id} の現在のスタイル:`, {
+            display: computedStyle.display,
             position: computedStyle.position,
             zIndex: computedStyle.zIndex,
             visibility: computedStyle.visibility,
@@ -332,6 +345,52 @@ function getClassNameFromURL() {
     return null;
 }
 
+// モーダルを表示する関数
+function showModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        console.log(`モーダル ${modalId} を表示中...`);
+        modal.style.setProperty('display', 'block', 'important');
+        modal.style.setProperty('position', 'fixed', 'important');
+        modal.style.setProperty('z-index', '2000', 'important');
+        modal.style.setProperty('left', '0', 'important');
+        modal.style.setProperty('top', '0', 'important');
+        modal.style.setProperty('width', '100%', 'important');
+        modal.style.setProperty('height', '100%', 'important');
+        modal.style.setProperty('background', 'rgba(0, 0, 0, 0.4)', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log(`モーダル ${modalId} を表示しました`);
+        
+        // 表示後のスタイルを確認
+        setTimeout(() => {
+            const computedStyle = window.getComputedStyle(modal);
+            console.log(`モーダル ${modalId} の表示後スタイル:`, {
+                display: computedStyle.display,
+                position: computedStyle.position,
+                zIndex: computedStyle.zIndex,
+                visibility: computedStyle.visibility
+            });
+        }, 100);
+        
+        return true;
+    } else {
+        console.error(`モーダル ${modalId} が見つかりません`);
+        return false;
+    }
+}
+
+// モーダルを非表示にする関数
+function hideModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = 'auto';
+        console.log(`モーダル ${modalId} を非表示にしました`);
+        return true;
+    }
+    return false;
+}
+
 // モーダルハンドラーを設定
 function setupModalHandlers() {
     // モーダルボタンのイベントリスナー
@@ -339,44 +398,12 @@ function setupModalHandlers() {
         if (e.target.classList.contains('cast-btn')) {
             const modalId = e.target.getAttribute('data-modal');
             console.log('モーダルボタンがクリックされました:', modalId);
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                console.log('モーダルが見つかりました:', modal);
-                // モーダルを確実に表示（!importantを使用）
-                modal.style.setProperty('display', 'block', 'important');
-                modal.style.setProperty('position', 'fixed', 'important');
-                modal.style.setProperty('z-index', '2000', 'important');
-                modal.style.setProperty('left', '0', 'important');
-                modal.style.setProperty('top', '0', 'important');
-                modal.style.setProperty('width', '100%', 'important');
-                modal.style.setProperty('height', '100%', 'important');
-                modal.style.setProperty('background', 'rgba(0, 0, 0, 0.4)', 'important');
-                document.body.style.overflow = 'hidden';
-                console.log('モーダルを表示しました');
-                
-                // 表示後のスタイルを確認
-                setTimeout(() => {
-                    const computedStyle = window.getComputedStyle(modal);
-                    console.log(`モーダル ${modalId} の表示後スタイル:`, {
-                        display: computedStyle.display,
-                        position: computedStyle.position,
-                        zIndex: computedStyle.zIndex,
-                        visibility: computedStyle.visibility
-                    });
-                }, 100);
-            } else {
-                console.error('モーダルが見つかりません:', modalId);
-            }
+            showModal(modalId);
         }
         
         if (e.target.classList.contains('close')) {
             const modalId = e.target.getAttribute('data-modal');
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.style.setProperty('display', 'none', 'important');
-                document.body.style.overflow = 'auto';
-                console.log('モーダルを閉じました:', modalId);
-            }
+            hideModal(modalId);
         }
     });
 
@@ -385,9 +412,7 @@ function setupModalHandlers() {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
             if (event.target === modal) {
-                modal.style.setProperty('display', 'none', 'important');
-                document.body.style.overflow = 'auto';
-                console.log('モーダル外クリックで閉じました');
+                hideModal(modal.id);
             }
         });
     });
@@ -397,10 +422,8 @@ function setupModalHandlers() {
         if (event.key === 'Escape') {
             const modals = document.querySelectorAll('.modal');
             modals.forEach(modal => {
-                if (modal.style.display === 'block' || window.getComputedStyle(modal).display === 'block') {
-                    modal.style.setProperty('display', 'none', 'important');
-                    document.body.style.overflow = 'auto';
-                    console.log('ESCキーでモーダルを閉じました');
+                if (window.getComputedStyle(modal).display === 'block') {
+                    hideModal(modal.id);
                 }
             });
         }
@@ -532,6 +555,22 @@ if ('ontouchstart' in window) {
         
         element.addEventListener('touchend', () => {
             element.style.transform = '';
+        });
+    });
+}
+
+// モーダルの状態をデバッグする関数
+function debugModalState() {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        const modalId = modal.id;
+        const computedStyle = window.getComputedStyle(modal);
+        console.log(`モーダル ${modalId} の現在のスタイル:`, {
+            display: computedStyle.display,
+            position: computedStyle.position,
+            zIndex: computedStyle.zIndex,
+            visibility: computedStyle.visibility,
+            opacity: computedStyle.opacity
         });
     });
 }
