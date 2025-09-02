@@ -353,12 +353,6 @@ function generateClassCards() {
         const classData = festivalData.filter(row => row.class === className);
         const performances = classData.length;
         
-        // 役者の総数を動的に計算
-        const totalCast = classData.reduce((total, row) => {
-            const castCount = row.cast.split(',').filter(cast => cast.trim().length > 0).length;
-            return total + castCount;
-        }, 0);
-        
         // 最初の公演の公演名を取得
         const firstPerformance = classData[0];
         const performanceTitle = firstPerformance ? firstPerformance.play_title : '演劇公演';
@@ -376,7 +370,6 @@ function generateClassCards() {
                 <p>${performanceTitle}</p>
                 <div class="schedule-info">
                     <span class="schedule-badge">${performances}公演</span>
-                    <span class="cast-count">役者: ${totalCast}名</span>
                 </div>
             </div>
         `;

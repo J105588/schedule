@@ -1079,3 +1079,129 @@ p {
         gap: 0.5rem;
     }
 }
+
+/* Responsive improvements */
+@media (max-width: 600px) {
+  .header h1 { font-size: 1.25rem; }
+  .menu-toggle { font-size: 1.2rem; }
+  .main { padding: 12px; }
+
+  .classes-grid { grid-template-columns: 1fr; gap: 12px; }
+  .class-card { padding: 12px; }
+  .class-card .class-card-header h4 { font-size: 1.05rem; }
+  .class-card .class-card-content p { font-size: 0.95rem; }
+  .schedule-info { gap: 8px; }
+
+  .schedule-header h1 { font-size: 1.25rem; }
+  .schedule-header p { font-size: 0.95rem; }
+
+  .schedule-table { font-size: 0.95rem; }
+  .schedule-table th, .schedule-table td { padding: 10px 8px; }
+
+  .info-section { grid-template-columns: 1fr; gap: 12px; }
+  .info-card { padding: 12px; }
+
+  .modal .modal-content { width: calc(100% - 24px); margin: 12px; padding: 12px; }
+}
+
+/* Keep countdown in single row */
+.countdown-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 0 8px;
+}
+
+.countdown-item {
+  flex-shrink: 0;
+  min-width: 60px;
+}
+
+@media (max-width: 480px) {
+  .countdown-section { gap: 4px; }
+  .countdown-item { min-width: 50px; }
+  .countdown-number { font-size: 1.5rem; }
+  .countdown-label { font-size: 0.8rem; }
+}
+
+/* Remove horizontal scroll for tables */
+.schedule-day { overflow-x: visible; }
+.schedule-day > .schedule-table { 
+  min-width: auto; 
+  width: 100%;
+  table-layout: fixed;
+}
+
+.schedule-table th:nth-child(1) { width: 15%; }
+.schedule-table th:nth-child(2) { width: 25%; }
+.schedule-table th:nth-child(3) { width: 20%; }
+.schedule-table th:nth-child(4) { width: 40%; }
+
+/* Card animation effects */
+.class-card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.class-card:nth-child(1) { animation-delay: 0.1s; }
+.class-card:nth-child(2) { animation-delay: 0.2s; }
+.class-card:nth-child(3) { animation-delay: 0.3s; }
+.class-card:nth-child(4) { animation-delay: 0.4s; }
+.class-card:nth-child(5) { animation-delay: 0.5s; }
+.class-card:nth-child(6) { animation-delay: 0.6s; }
+.class-card:nth-child(7) { animation-delay: 0.7s; }
+.class-card:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Improve tap targets */
+.cast-btn { padding: 10px 14px; font-size: 0.95rem; }
+.close, .menu-toggle, .close-sidebar { min-width: 44px; min-height: 44px; }
+
+/* Enhanced readability */
+.schedule-table td { 
+  word-break: break-word; 
+  vertical-align: top;
+}
+
+.cast-count-cell {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.title-cell {
+  font-weight: 500;
+}
+
+.time-cell {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+/* Better spacing for mobile */
+@media (max-width: 600px) {
+  .schedule-table th, .schedule-table td { 
+    padding: 8px 4px; 
+    font-size: 0.9rem;
+  }
+  
+  .cast-btn { 
+    padding: 8px 12px; 
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  
+  .schedule-day h2 { 
+    font-size: 1.1rem; 
+    margin-bottom: 12px;
+  }
+}
