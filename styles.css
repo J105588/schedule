@@ -200,18 +200,29 @@ p {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--shadow-heavy);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--secondary-color));
 }
 
 .menu-toggle {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
@@ -223,11 +234,13 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(10px);
 }
 
 .menu-toggle:hover {
     background-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .header h1 {
@@ -235,14 +248,19 @@ p {
     font-size: 2rem;
     font-weight: 700;
     color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
 }
 
 /* メインコンテンツ */
 .main {
     min-height: 100vh;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    padding-top: 100px;
+    padding-top: 120px;
     padding-bottom: 3rem;
     position: relative;
 }
@@ -664,18 +682,28 @@ p {
     font-weight: 600;
     color: var(--primary-color);
     font-size: 1.2rem;
-    width: 120px;
+    text-align: center;
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: var(--border-radius-small);
+    padding: 0.5rem;
+    min-width: 80px;
 }
 
 .title-cell {
     font-weight: 600;
     color: var(--text-primary);
     font-size: 1.1rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: var(--border-radius-small);
 }
 
 .cast-count-cell {
     text-align: center;
     width: 150px;
+    background: rgba(102, 126, 234, 0.03);
+    border-radius: var(--border-radius-small);
+    padding: 0.5rem;
 }
 
 .cast-number {
@@ -703,6 +731,8 @@ p {
     transition: var(--transition);
     font-size: 0.95rem;
     box-shadow: var(--shadow-light);
+    width: 100%;
+    text-align: center;
 }
 
 .cast-btn:hover {
@@ -1088,14 +1118,22 @@ p {
     
     .header {
         padding: 1rem;
+        backdrop-filter: blur(15px);
     }
     
     .main {
-        padding-top: 80px;
+        padding-top: 100px;
     }
     
     .header h1 {
         font-size: 1.5rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .menu-toggle {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
     }
     
     .hero {
@@ -1201,9 +1239,17 @@ p {
 
 /* Responsive improvements */
 @media (max-width: 600px) {
-  .header h1 { font-size: 1.25rem; }
-  .menu-toggle { font-size: 1.2rem; }
-  .main { padding-top: 80px; padding-left: 12px; padding-right: 12px; }
+  .header h1 { 
+    font-size: 1.25rem; 
+    letter-spacing: 0.5px;
+  }
+  .menu-toggle { 
+    font-size: 1.2rem; 
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+  }
+  .main { padding-top: 100px; padding-left: 12px; padding-right: 12px; }
 
   .classes-grid { grid-template-columns: 1fr; gap: 12px; }
   .class-card { padding: 12px; }
@@ -1288,10 +1334,10 @@ p {
   table-layout: fixed;
 }
 
-.schedule-table th:nth-child(1) { width: 15%; }
-.schedule-table th:nth-child(2) { width: 25%; }
-.schedule-table th:nth-child(3) { width: 20%; }
-.schedule-table th:nth-child(4) { width: 40%; }
+.schedule-table th:nth-child(1) { width: 20%; }
+.schedule-table th:nth-child(2) { width: 30%; }
+.schedule-table th:nth-child(3) { width: 25%; }
+.schedule-table th:nth-child(4) { width: 25%; }
 
 /* Card animation effects */
 .class-card {
@@ -1349,6 +1395,21 @@ p {
   .schedule-table th, .schedule-table td { 
     padding: 8px 4px; 
     font-size: 0.9rem;
+  }
+  
+  .time-cell {
+    padding: 6px 4px;
+    font-size: 1rem;
+    min-width: 60px;
+  }
+  
+  .title-cell {
+    padding: 6px 4px;
+    font-size: 0.95rem;
+  }
+  
+  .cast-count-cell {
+    padding: 6px 4px;
   }
   
   .cast-btn { 
