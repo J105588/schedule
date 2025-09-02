@@ -39,11 +39,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 1rem;
 }
 
-h1 { 
-    font-size: 2.5rem; 
-    margin: 0;
-    padding: 0;
-}
+h1 { font-size: 2.5rem; }
 
 h2 { font-size: 2rem; }
 h3 { font-size: 1.5rem; }
@@ -211,7 +207,6 @@ p {
     right: 0;
     z-index: 1000;
     backdrop-filter: blur(10px);
-    line-height: 1;
 }
 
 .menu-toggle {
@@ -228,7 +223,6 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
 }
 
 .menu-toggle:hover {
@@ -238,14 +232,10 @@ p {
 
 .header h1 {
     margin: 0;
-    padding: 0;
     font-size: 2rem;
     font-weight: 700;
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    line-height: 1.2;
-    display: flex;
-    align-items: center;
 }
 
 /* メインコンテンツ */
@@ -1098,7 +1088,6 @@ p {
     
     .header {
         padding: 1rem;
-        line-height: 1;
     }
     
     .main {
@@ -1107,9 +1096,6 @@ p {
     
     .header h1 {
         font-size: 1.5rem;
-        margin: 0;
-        padding: 0;
-        line-height: 1.2;
     }
     
     .hero {
@@ -1215,12 +1201,7 @@ p {
 
 /* Responsive improvements */
 @media (max-width: 600px) {
-  .header h1 { 
-    font-size: 1.25rem; 
-    margin: 0;
-    padding: 0;
-    line-height: 1.2;
-  }
+  .header h1 { font-size: 1.25rem; }
   .menu-toggle { font-size: 1.2rem; }
   .main { padding-top: 80px; padding-left: 12px; padding-right: 12px; }
 
@@ -1249,14 +1230,15 @@ p {
   align-items: center;
   gap: 12px;
   flex-wrap: nowrap;
-  overflow-x: auto;
   padding: 0 8px;
+  width: 100%;
 }
 
 .countdown-item {
-  flex-shrink: 0;
-  min-width: 70px;
+  flex: 1;
+  min-width: 0;
   text-align: center;
+  padding: 1rem 0.5rem;
 }
 
 .countdown-number {
@@ -1279,21 +1261,21 @@ p {
 
 @media (max-width: 768px) {
   .countdown-section { gap: 10px; }
-  .countdown-item { min-width: 65px; }
+  .countdown-item { padding: 0.75rem 0.25rem; }
   .countdown-number { font-size: 2rem; }
   .countdown-label { font-size: 0.85rem; }
 }
 
 @media (max-width: 480px) {
   .countdown-section { gap: 8px; }
-  .countdown-item { min-width: 60px; }
+  .countdown-item { padding: 0.5rem 0.25rem; }
   .countdown-number { font-size: 1.8rem; }
   .countdown-label { font-size: 0.8rem; }
 }
 
 @media (max-width: 360px) {
   .countdown-section { gap: 6px; }
-  .countdown-item { min-width: 55px; }
+  .countdown-item { padding: 0.5rem 0.125rem; }
   .countdown-number { font-size: 1.6rem; }
   .countdown-label { font-size: 0.75rem; }
 }
