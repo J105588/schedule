@@ -14,20 +14,22 @@ body {
     overflow-x: hidden;
 }
 
-/* Enhanced theme colors for better visibility */
+/* 統一カラーパレット */
 :root {
-  --primary-color: #1e40af;
-  --primary-hover: #1d4ed8;
-  --secondary-color: #059669;
-  --accent-color: #dc2626;
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --border-color: #e5e7eb;
-  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --accent-color: #f093fb;
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-light: #718096;
+    --bg-white: rgba(255, 255, 255, 0.98);
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.12);
+    --shadow-heavy: 0 15px 40px rgba(0, 0, 0, 0.15);
+    --border-radius: 16px;
+    --border-radius-small: 8px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* タイポグラフィの改善 */
@@ -191,7 +193,7 @@ p {
 
 /* ヘッダー */
 .header {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
     padding: 1.5rem 2rem;
     display: flex;
@@ -1123,16 +1125,15 @@ p {
   display: block;
   font-size: 2.2rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: #1e40af;
   line-height: 1;
   margin-bottom: 4px;
-  animation: pulse 2s infinite;
 }
 
 .countdown-label {
   display: block;
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: #6b7280;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -1177,12 +1178,6 @@ p {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.6s ease forwards;
-  transition: all 0.3s ease;
-}
-
-.class-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-heavy);
 }
 
 .class-card:nth-child(1) { animation-delay: 0.1s; }
@@ -1195,247 +1190,10 @@ p {
 .class-card:nth-child(8) { animation-delay: 0.8s; }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-/* Apply animations to various elements */
-.hero {
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.hero-content h2 {
-  animation: fadeInLeft 0.8s ease-out 0.2s both;
-}
-
-.hero-content p {
-  animation: fadeInLeft 0.8s ease-out 0.4s both;
-}
-
-.countdown-section {
-  animation: scaleIn 0.8s ease-out 0.6s both;
-}
-
-.schedule-header {
-  animation: slideInDown 0.6s ease-out;
-}
-
-.schedule-day {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.schedule-day:nth-child(1) { animation-delay: 0.1s; }
-.schedule-day:nth-child(2) { animation-delay: 0.2s; }
-
-.info-card {
-  animation: scaleIn 0.6s ease-out;
-}
-
-.info-card:nth-child(1) { animation-delay: 0.1s; }
-.info-card:nth-child(2) { animation-delay: 0.2s; }
-
-/* Enhanced card animations */
-.class-card {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.6s ease forwards;
-  transition: all 0.3s ease;
-}
-
-.class-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-heavy);
-}
-
-.class-card:nth-child(1) { animation-delay: 0.1s; }
-.class-card:nth-child(2) { animation-delay: 0.2s; }
-.class-card:nth-child(3) { animation-delay: 0.3s; }
-.class-card:nth-child(4) { animation-delay: 0.4s; }
-.class-card:nth-child(5) { animation-delay: 0.5s; }
-.class-card:nth-child(6) { animation-delay: 0.6s; }
-.class-card:nth-child(7) { animation-delay: 0.7s; }
-.class-card:nth-child(8) { animation-delay: 0.8s; }
-
-/* Button animations */
-.cast-btn, .menu-toggle, .close-sidebar {
-  transition: all 0.3s ease;
-}
-
-.cast-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
-}
-
-.menu-toggle:hover, .close-sidebar:hover {
-  transform: scale(1.1);
-  background-color: var(--primary-hover);
-}
-
-/* Table row animations */
-.schedule-table tbody tr {
-  animation: fadeInUp 0.4s ease-out;
-}
-
-.schedule-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
-.schedule-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
-.schedule-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
-
-/* Modal animations */
-.modal {
-  animation: scaleIn 0.3s ease-out;
-}
-
-.modal-content {
-  animation: fadeInUp 0.3s ease-out 0.1s both;
-}
-
-/* Sidebar animations */
-.sidebar {
-  transition: transform 0.3s ease;
-}
-
-.sidebar.active {
-  animation: slideInDown 0.3s ease-out;
-}
-
-/* Enhanced countdown styling */
-.countdown-number {
-  display: block;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  line-height: 1;
-  margin-bottom: 4px;
-  animation: pulse 2s infinite;
-}
-
-.countdown-label {
-  display: block;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Enhanced color scheme */
-.header {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-  color: white;
-}
-
-.sidebar {
-  background: var(--bg-primary);
-  border-right: 1px solid var(--border-color);
-}
-
-.sidebar-item:hover {
-  background-color: var(--bg-secondary);
-  color: var(--primary-color);
-}
-
-.schedule-badge {
-  background-color: var(--secondary-color);
-  color: white;
-}
-
-.time-cell {
-  font-weight: 600;
-  color: var(--primary-color);
-}
-
-.cast-btn {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.cast-btn:hover {
-  background-color: var(--primary-hover);
-}
-
-/* Enhanced shadows and borders */
-.class-card, .info-card, .schedule-table {
-  box-shadow: var(--shadow-light);
-  border: 1px solid var(--border-color);
-}
-
-.class-card:hover, .info-card:hover {
-  box-shadow: var(--shadow-medium);
-}
-
-/* Loading animation for data */
-.loading {
-  animation: pulse 1.5s infinite;
-}
-
-/* Enhanced focus states */
-button:focus, a:focus {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
 }
 
 /* Improve tap targets */
