@@ -135,6 +135,9 @@ function displayClassSchedule(className) {
     
     // モーダルを生成
     generateModals(classData);
+    
+    // ページタイトルも更新
+    updatePageTitle(className);
 }
 
 // スケジュールヘッダーを更新
@@ -156,6 +159,18 @@ function updateScheduleHeader(className) {
             descElement.textContent = '演劇公演';
         }
     }
+}
+
+// ページタイトルを更新
+function updatePageTitle(className) {
+    const classData = festivalData.filter(row => row.class === className);
+    let playTitle = '演劇公演';
+    
+    if (classData.length > 0) {
+        playTitle = classData[0].play_title || '演劇公演';
+    }
+    
+    document.title = `${className} - ${playTitle} - 演劇祭スケジュール`;
 }
 
 // スケジュールテーブルを生成
@@ -464,7 +479,7 @@ function setupModalHandlers() {
         }
         
         // モーダルを閉じる（×ボタン）
-        if (e.target.classList.contains('close') || e.target.closest('.close')) {
+        if (e.target.classList.contains('close') || e.target.closest('.close') || e.target.classList.contains('fa-times')) {
             const closeButton = e.target.classList.contains('close') ? e.target : e.target.closest('.close');
             const modalId = closeButton.getAttribute('data-modal');
             const modal = document.getElementById(modalId);
