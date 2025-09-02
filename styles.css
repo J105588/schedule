@@ -200,9 +200,11 @@ p {
     align-items: center;
     gap: 1.5rem;
     box-shadow: var(--shadow-medium);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     backdrop-filter: blur(10px);
 }
 
@@ -239,6 +241,7 @@ p {
 .main {
     min-height: 100vh;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    padding-top: 100px;
     padding-bottom: 3rem;
     position: relative;
 }
@@ -1081,6 +1084,10 @@ p {
         padding: 1rem;
     }
     
+    .main {
+        padding-top: 80px;
+    }
+    
     .header h1 {
         font-size: 1.5rem;
     }
@@ -1190,7 +1197,7 @@ p {
 @media (max-width: 600px) {
   .header h1 { font-size: 1.25rem; }
   .menu-toggle { font-size: 1.2rem; }
-  .main { padding: 12px; }
+  .main { padding-top: 80px; padding-left: 12px; padding-right: 12px; }
 
   .classes-grid { grid-template-columns: 1fr; gap: 12px; }
   .class-card { padding: 12px; }
