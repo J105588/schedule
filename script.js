@@ -452,6 +452,10 @@ function setupModalHandlers() {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.style.display = 'block';
+                // アニメーションのために少し遅延
+                setTimeout(() => {
+                    modal.classList.add('show');
+                }, 10);
                 document.body.style.overflow = 'hidden';
                 console.log(`モーダル ${modalId} を開きました`);
             } else {
@@ -465,8 +469,12 @@ function setupModalHandlers() {
             const modalId = closeButton.getAttribute('data-modal');
             const modal = document.getElementById(modalId);
             if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                modal.classList.remove('show');
+                // アニメーション完了後に非表示
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }, 300);
                 console.log(`モーダル ${modalId} を閉じました`);
             } else {
                 console.error(`モーダル ${modalId} が見つかりません`);
@@ -479,8 +487,12 @@ function setupModalHandlers() {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
             if (event.target === modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                modal.classList.remove('show');
+                // アニメーション完了後に非表示
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }, 300);
                 console.log(`モーダル外クリックでモーダルを閉じました`);
             }
         });
@@ -492,8 +504,12 @@ function setupModalHandlers() {
             const modals = document.querySelectorAll('.modal');
             modals.forEach(modal => {
                 if (modal.style.display === 'block') {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    modal.classList.remove('show');
+                    // アニメーション完了後に非表示
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }, 300);
                     console.log('ESCキーでモーダルを閉じました');
                 }
             });
