@@ -321,7 +321,7 @@ p {
 /* ヒーローセクション */
 .hero {
     background: var(--bg-white);
-    margin: 2rem;
+    margin: 2rem auto;
     border-radius: var(--border-radius);
     padding: 3rem 2rem;
     text-align: center;
@@ -469,7 +469,7 @@ p {
 
 /* クラスセクション */
 .classes-section {
-    margin: 2rem;
+    margin: 2rem auto;
 }
 
 .classes-section h3 {
@@ -588,7 +588,7 @@ p {
     background: var(--bg-white);
     border-radius: var(--border-radius);
     padding: 2.5rem;
-    margin: 2rem;
+    margin: 2rem auto;
     box-shadow: var(--shadow-medium);
     border: 1px solid rgba(255, 255, 255, 0.8);
     text-align: center;
@@ -645,7 +645,7 @@ p {
 
 /* スケジュールコンテナ */
 #schedule-tables {
-    margin: 0 2rem 2rem;
+    margin: 0 auto 2rem;
 }
 
 .schedule-day {
@@ -1011,7 +1011,7 @@ p {
 
 /* 区切り線 */
 .section-divider {
-    margin: 3rem 2rem;
+    margin: 3rem auto;
     border: none;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
@@ -1023,7 +1023,7 @@ p {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
-    margin: 2rem;
+    margin: 2rem auto;
 }
 
 .info-card {
@@ -1094,7 +1094,7 @@ p {
     background: var(--bg-white);
     padding: 2rem;
     text-align: center;
-    margin: 2rem;
+    margin: 2rem auto;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
     border: 1px solid rgba(255, 255, 255, 0.8);
@@ -1457,4 +1457,28 @@ p {
     font-size: 1.1rem; 
     margin-bottom: 12px;
   }
+}
+
+/* Section entrance animations */
+@keyframes fadeInSoft {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero,
+.schedule-header,
+.info-card {
+    opacity: 0;
+    animation: fadeInSoft 0.6s ease forwards;
+}
+
+/* Stagger info cards for subtle rhythm */
+.info-section .info-card:nth-child(1) { animation-delay: 0.08s; }
+.info-section .info-card:nth-child(2) { animation-delay: 0.16s; }
+.info-section .info-card:nth-child(3) { animation-delay: 0.24s; }
+.info-section .info-card:nth-child(4) { animation-delay: 0.32s; }
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .hero, .schedule-header, .info-card { animation: none; opacity: 1; }
 }
