@@ -285,6 +285,19 @@ p {
     position: relative;
 }
 
+/* Constrain readable width for main content while preserving full-bleed background */
+.main .container,
+.hero,
+.classes-section,
+.schedule-header,
+#schedule-tables,
+.info-section,
+.footer {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .main::before {
     content: '';
     position: absolute;
@@ -677,12 +690,12 @@ p {
 }
 
 .schedule-table th {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(102, 126, 234, 0.12);
     color: var(--text-primary);
     font-weight: 600;
     padding: 1.5rem 2rem;
     text-align: left;
-    border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+    border-bottom: 2px solid rgba(102, 126, 234, 0.28);
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -690,13 +703,12 @@ p {
 
 .schedule-table td {
     padding: 1.5rem 2rem;
-    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
     vertical-align: middle;
 }
 
-.schedule-table tr:hover {
-    background-color: rgba(102, 126, 234, 0.05);
-}
+.schedule-table tbody tr:nth-child(odd) { background-color: rgba(0, 0, 0, 0.018); }
+.schedule-table tr:hover { background-color: rgba(0, 0, 0, 0.04); }
 
 .time-cell {
     font-weight: 600;
