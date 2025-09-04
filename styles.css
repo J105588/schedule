@@ -495,7 +495,8 @@ p {
     color: inherit;
     box-shadow: var(--shadow-medium);
     border: 1px solid rgba(255, 255, 255, 0.8);
-    transition: var(--transition);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    will-change: transform;
     display: block;
     position: relative;
     overflow: hidden;
@@ -514,7 +515,7 @@ p {
 }
 
 .class-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-heavy);
 }
 
@@ -1033,7 +1034,8 @@ p {
     box-shadow: var(--shadow-medium);
     border: 1px solid rgba(255, 255, 255, 0.8);
     text-align: center;
-    transition: var(--transition);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    will-change: transform;
     position: relative;
     overflow: hidden;
 }
@@ -1051,7 +1053,7 @@ p {
 }
 
 .info-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-heavy);
 }
 
