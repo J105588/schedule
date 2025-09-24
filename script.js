@@ -3,6 +3,19 @@ let festivalData = [];
 
 // ページ読み込み時の処理
 document.addEventListener('DOMContentLoaded', () => {
+    // メンテナンス（停止中）フラグのチェック
+    try {
+        const isStopped = typeof window !== 'undefined' && window.IS_STOPPED === true;
+        const isNot404 = !/404\.html$/.test(window.location.pathname);
+        if (isStopped && isNot404) {
+            alert('現在停止中です。しばらくしてからアクセスしてください。');
+            // 404にリダイレクト（相対パスで同ディレクトリの404.htmlへ）
+            window.location.replace('404.html');
+            return; // 以降の処理を中断
+        }
+    } catch (e) {
+        console.warn('メンテナンスフラグのチェック中に問題が発生しました:', e);
+    }
     console.log('=== ページ読み込み開始 ===');
     
     // CSVファイルを読み込む
