@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isStopped = typeof window !== 'undefined' && window.IS_STOPPED === true;
         const isNot404 = !/404\.html$/.test(window.location.pathname);
         if (isStopped && isNot404) {
-            alert('現在停止中です。しばらくしてからアクセスしてください。');
+            alert('現在停止中です。');
             // 404にリダイレクト（相対パスで同ディレクトリの404.htmlへ）
             window.location.replace('404.html');
             return; // 以降の処理を中断
