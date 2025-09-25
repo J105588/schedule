@@ -12,12 +12,35 @@
 </head>
 
 <body>
-    <main class="main" style="display:flex;align-items:center;justify-content:center;min-height:70vh;text-align:center;">
-        <div>
-            <h1 style="margin-bottom:16px;">404</h1>
-            <p style="margin-bottom:24px;">Not Found</p>
-            <a href="index.html" class="class-card" style="display:inline-block;padding:12px 20px;text-decoration:none;">トップへ戻る</a>
-        </div>
+    <main class="main" aria-labelledby="error-title">
+        <section class="error-404" role="region">
+            <div class="error-sky" aria-hidden="true">
+                <span class="star s1">★</span>
+                <span class="star s2">★</span>
+                <span class="star s3">★</span>
+                <span class="star s4">★</span>
+                <span class="planet"></span>
+                <span class="ufo" aria-hidden="true">
+                    <span class="ufo-top"></span>
+                    <span class="ufo-bottom"></span>
+                    <span class="ufo-beam"></span>
+                </span>
+            </div>
+
+            <div class="error-card">
+                <h1 id="error-title" class="error-title" aria-label="404 Not Found">
+                    <span class="error-code" aria-hidden="true">4</span>
+                    <span class="error-emoji" role="img" aria-label="oh no">😵</span>
+                    <span class="error-code" aria-hidden="true">4</span>
+                </h1>
+                <p class="error-sub">世界の果てまで探しましたが、見つかりませんでした<span class="kaomoji" aria-hidden="true">(´；ω；`)ｳｩｩ</span></p>
+                <p class="error-hint">もしかして消えてしまったのかも… 地図（トップページ）から探してみてください。</p>
+                <div class="error-actions">
+                    <a href="index.html" class="btn error-btn"><i class="fas fa-compass"></i> トップへ戻る</a>
+                </div>
+                <p class="error-small">エラーコード: 404 / Not Found</p>
+            </div>
+        </section>
     </main>
 </body>
 
