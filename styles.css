@@ -223,7 +223,6 @@ p {
     box-shadow: var(--shadow-heavy);
     position: fixed;
     top: 0;
-    padding-top: max(env(safe-area-inset-top), 0px);
     left: 0;
     right: 0;
     z-index: 1000;
@@ -281,7 +280,7 @@ p {
 .main {
     min-height: 100vh;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    padding-top: calc(120px + env(safe-area-inset-top));
+    padding-top: 120px;
     padding-bottom: 3rem;
     position: relative;
 }
